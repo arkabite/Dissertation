@@ -1,0 +1,101 @@
+.venv) PS C:\Users\AADITIYA\Desktop\Dissertation> python ollamaRuleExplainer.py
+Loaded 7 rules over target 'stimulus'.
+Ask a question about the model's rules (Ctrl+C to quit).
+
+You: List every rule you have, exactly as given.
+[debug] retrieved 5 rule(s): [1, 2, 3, 4, 5]
+
+Assistant: Here are the five rules I have (they are 5 of the 7 total rules in the model):
+
+**Rule 1:**  
+IF `tmb_s1_chAFp4` IS Medium AND `tmb_s2_chAF8` IS High  
+THEN stimulus = **0 back**  
+(dominance_score = 0.05882875022772295, accuracy = 0.6666666666666666)
+
+**Rule 2:**  
+IF `tmb_s2_chAF7` IS High AND `tmb_s2_chC6h` IS High  
+THEN stimulus = **0 back**  
+(dominance_score = 0.055289877099103706, accuracy = 0.6744186046511628)
+
+**Rule 3:**  
+IF `tmb_s2_chPO2` IS High  
+THEN stimulus = **0 back**  
+(dominance_score = 0.07154058633990627, accuracy = 0.6390977443609023)
+
+**Rule 4:**  
+IF `tmb_s2_chAFF5` IS Low AND `tmb_s2_chAFpz` IS Medium  
+THEN stimulus = **2/3 back**  
+(dominance_score = 0.07108231910268117, accuracy = 0.85)
+
+**Rule 5:**  
+IF `tmb_s2_chAF8` IS Low  
+THEN stimulus = **2/3 back**  
+(dominance_score = 0.22886034566496205, accuracy = 0.8795180722891566)
+
+You: What does channel AF8 predict?
+[debug] retrieved 5 rule(s): [1, 5, 2, 3, 4]
+
+Assistant: Channel AF8 appears in two rules:
+
+| Rule | Condition on AF8 | Predicted stimulus | Rule accuracy |
+|------|-----------------|--------------------|--------------|
+| 1 | `tmb_s2_chAF8` is **High** (along with `tmb_s1_chAFp4` Medium) | **0 back** | 0.667 |
+| 5 | `tmb_s2_chAF8` is **Low** | **2/3 back** | 0.880 |
+
+So, when AF8 is high the model rules it predict a “0 back” stimulus, and when AF8 is low the rule predicts a “2/3 back” stimulus. No other rules in this subset reference AF8.
+
+You: What does channel AF7 predict?"
+[debug] retrieved 5 rule(s): [2, 6, 1, 3, 4]
+
+Assistant: **Channel AF7** is used in two of the rules that determine a stimulus class:
+
+| Rule | Condition involving AF7 | Predicted stimulus |
+|------|--------------------------|--------------------|
+| **Rule 2** | `tmb_s2_chAF7` **High** **and** `tmb_s2_chC6h` **High** | **0 back** (dominance ≈ 0.0553, accuracy ≈ 0.674) |
+| **Rule 6** | `tmb_s2_chAF7` **Medium** **and** `tmb_s1_chAFF3h` **Low** | **2/3 back** (dominance ≈ 0.0995, accuracy ≈ 0.863) |
+
+So, if AF7 is measured as **high** (and the C6h channel is also high), the model tends to classify the stimulus as **0 back**.  
+If AF7 is **medium** (and the AFF3h channel is low), the model tends to classify the stimulus as **2/3 back**.  
+
+These are the only rules that explicitly involve channel AF7; no other rules in the sample set provide predictions for AF7.
+
+You: What does channel AFp8 tell us?
+[debug] retrieved 5 rule(s): [5, 6, 4, 7, 2]
+
+Assistant: The set of rules we have access to does **not** refer to a channel named **AFp8**.  
+None of the five rules we’re showing includes that channel, so the model does not provide any direct inference, accuracy information, or dominance score linked to AFp8.  
+
+In short, based on the rules and statistics that you supplied, we cannot say what AFp8 tells us about the stimulus.
+
+You: What's the dominance score and accuracy for the AFF5/AFpz rule, and how confident should I be in that accuracy given cross-validation?
+[debug] retrieved 5 rule(s): [4, 7, 1, 2, 3]
+
+Assistant: **Rule 4 (AFF5/AFpz rule)**  
+- **Dominance score:** 0.07108231910268117  
+- **Accuracy:** 0.85  
+
+**How confident should you be in that accuracy given cross‑validation?**  
+The cross‑validation results for the entire model are:
+
+- **Test accuracy:** 0.664 ± 0.049  
+- **Test MCC:** 0.342 ± 0.094  
+
+These figures come from five subject‑grouped folds, so the typical accuracy you can expect when applying the model to new data is about 0.664 with a standard deviation of roughly 0.049.  
+
+The rule‑specific accuracy of 0.85 is noticeably higher than the model‑wide average. While that suggests the rule behaves very well on the data it was derived from, it may be an over‑estimate of how well the rule will generalize, especially because the overall model accuracy is lower and exhibits some variability.  
+
+**Bottom line:**  
+- The rule itself shows a high accuracy (85 %).  
+- However, the cross‑validation performance of the full model (≈66 % ± 5 %) indicates that you should treat the rule’s accuracy with moderate confidence—it's promising, but not guaranteed to hold on entirely new data.
+
+You: Which hemisphere shows more activity overall?
+[debug] retrieved 5 rule(s): [1, 2, 3, 4, 5]
+
+Assistant: I don’t have any rule or statistic that tells you which hemisphere is more active overall. The rules you’ve given only relate specific electrode features to stimulus predictions; none of them break down activity by hemisphere.
+
+You: Summarize the model's overall accuracy
+[debug] retrieved 5 rule(s): [5, 6, 4, 7, 2]
+
+Assistant: The overall performance of the fuzzy rule‑based classifier, as assessed by subject‑grouped cross‑validation, is a test accuracy of **approximately 66.4 % (± 4.9 %)**. This figure reflects the model’s average predictive accuracy across all five folds and should be distinguished from the individual rule accuracies listed above.
+
+You: 

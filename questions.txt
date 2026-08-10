@@ -1,0 +1,7 @@
+1)List every rule you have, exactly as given.
+2)What does channel AF8 predict?
+3)What does channel AF7 predict?"
+4)What does channel AFp8 tell us?
+5)What's the dominance score and accuracy for the AFF5/AFpz rule, and how confident should I be in that accuracy given cross-validation?
+6)Which hemisphere shows more activity overall?
+7)Summarize the model's overall accuracy."
