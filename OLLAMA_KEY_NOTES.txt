@@ -1,0 +1,23 @@
+Ollama API key access
+=====================
+
+The Streamlit app reads the Ollama API key from the environment variable OLLAMA_API_KEY.
+
+How it works:
+1. The app first tries Streamlit secrets via st.secrets.
+2. If that is not available, it checks a local secrets file in the project folder:
+   - .streamlit/secrets.toml
+   - secrets.toml
+   - streamlitlol/secrets.toml
+   - the user home .streamlit/secrets.toml
+3. If a key is found, it is stored in os.environ["OLLAMA_API_KEY"].
+4. The rag_core module then uses that environment variable when creating the Ollama client.
+
+Expected file format:
+[OLLAMA_API_KEY]
+value = "your_key_here"
+
+Note:
+- The key is not hard-coded in the Python source.
+- The local secrets file should not be committed to Git.
+- The .gitignore file excludes .streamlit/, .env, and similar sensitive files.
