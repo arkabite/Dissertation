@@ -22,6 +22,24 @@ import streamlit as st
 
 RULES_PATH = "extracted_rules_final.json"
 
+# ---------------------------------------------------------
+# Glossary — kept word-for-word identical to the copy in Streamlit_app.py
+# and Section 8 of the study protocol. If you edit this, edit all three,
+# or the two study conditions stop being a fair comparison.
+# ---------------------------------------------------------
+GLOSSARY_MD = """
+- **Channel** — A sensor location on the scalp that recorded brain-activity data (e.g. AF7, PO2). The model looks at readings from many channels, not just one.
+- **0 back / 2-3 back** — The two outcomes the model predicts. They refer to how demanding the memory task was: "0 back" = low demand, "2/3 back" = higher demand.
+- **Rule** — A statement of the form "IF [certain channels show certain patterns] THEN [predict 0 back / 2/3 back]." The model is made up of several such rules, not one single formula.
+- **Antecedent / Consequent** — The "IF" part of a rule is its antecedent (the condition); the "THEN" part is its consequent (the prediction).
+- **Dominance score** — A number showing how much a rule contributes to the model's overall decisions, relative to the other rules. Higher = the rule covers more of the data.
+- **Accuracy (per rule)** — How often that specific rule was correct, when it applied, in the data it was built from.
+- **Accuracy / MCC (model-level)** — A separate estimate of how well the whole model performs on new data, tested by holding out different groups of people in turn. MCC (Matthews Correlation Coefficient) is a stricter measure than accuracy and should be treated as at least as important.
+
+If you don't know an answer, or the interface doesn't give you one, say so — that is a valid, correct response.
+"""
+
+
 
 @st.cache_data
 def load_rules(path: str = RULES_PATH) -> dict:
@@ -35,6 +53,9 @@ st.caption(
     "Traditional static-visualisation condition — browse rules and model "
     "performance directly. No chat, no natural-language query."
 )
+
+with st.expander("📖 Glossary — click to expand definitions"):
+    st.markdown(GLOSSARY_MD)
 
 try:
     data = load_rules()

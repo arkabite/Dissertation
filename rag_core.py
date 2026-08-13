@@ -17,6 +17,7 @@ into importable functions.
 import json
 import os
 import re
+from pathlib import Path
 
 from ollama import Client
 
@@ -49,10 +50,42 @@ def load_rules(path: str = RULES_PATH) -> dict:
 
 
 # ---------------------------------------------------------
-# 2. Ollama client
+# 2. Load API key (with fallback to local files)
 # ---------------------------------------------------------
+def load_api_key_from_local_file() -> str:
+    """Try to load OLLAMA_API_KEY from common local file locations."""
+    candidates = [
+        Path(__file__).resolve().parent / ".streamlit" / "secrets.toml",
+        Path(__file__).resolve().parent / "secrets.toml",
+        Path(__file__).resolve().parent / "streamlitlol" / "secrets.toml",
+        Path.home() / ".streamlit" / "secrets.toml",
+    ]
+
+    for path in candidates:
+        if not path.exists():
+            continue
+        try:
+            import tomllib
+        except ImportError:
+            import tomli as tomllib
+
+        try:
+            with path.open("rb") as fh:
+                data = tomllib.load(fh)
+        except Exception:
+            continue
+
+        value = data.get("OLLAMA_API_KEY", "")
+        if value:
+            return str(value)
+
+    return ""
+
+
 def get_client() -> Client:
     api_key = os.environ.get("OLLAMA_API_KEY", "")
+    if not api_key:
+        api_key = load_api_key_from_local_file()
     if not api_key:
         raise RuntimeError(
             "OLLAMA_API_KEY is not set. Set it via environment variable "
