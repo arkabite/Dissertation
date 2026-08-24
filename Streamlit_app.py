@@ -250,20 +250,13 @@
 """
 streamlit_app.py
 
-Chat UI for the ExFuzzy rule explainer. Talks ONLY to backend.py's
-FastAPI service via api_client.py - it does not import rag_core, does
-not construct an Ollama client, and does not render matplotlib/mne
-figures locally. Every answer, retrieved rule, and visualization comes
-from the API, so this file only needs to know how to display JSON.
+Chat UI for the ExFuzzy rule explainer. This single-app version calls
+rag_core.py and viz_tools.py directly, so it does not require a separate
+FastAPI service or Uvicorn process. The app owns model loading, retrieval,
+LLM calls, fallback answers, and visualization payload construction.
 
-That's a deliberate choice, not an accident: it's what makes this
-frontend swappable for React later without touching the backend at all
-(see api_client.py's module docstring).
-
-Run the backend first:
-    uvicorn backend:app --reload
-Then run this:
-    streamlit run streamlit_app.py
+Run this:
+    streamlit run Streamlit_app.py
 
 Theme note: the palette lives in .streamlit/config.toml (warm ivory /
 amber-brass "Amber Desk" theme) so Streamlit's own widgets pick it up.
@@ -274,8 +267,22 @@ reach (chat bubbles, expander borders, caption tone, fonts).
 import streamlit as st
 import streamlit.components.v1 as components
 
-import api_client
-from api_client import BackendError
+from rag_core import (
+    ask_with_visualization,
+    build_fallback_answer,
+    get_client,
+    is_in_scope,
+    load_brain_mapping,
+    load_domain_background,
+    load_rules,
+    retrieve_rules,
+)
+from viz_tools import (
+    build_chord_payload,
+    build_topomap_payload,
+    load_channel_atlas,
+    resolve_requested_channels,
+)
 from viz_components import build_topomap_spec, build_chord_html, build_brain3d_html
 
 st.set_page_config(page_title="Fuzzy Rule Explainer", layout="wide")
@@ -415,54 +422,55 @@ if "history" not in st.session_state:
 
 
 # ---------------------------------------------------------
-# Backend connectivity check - fail loudly and specifically rather than
-# letting every widget below throw its own confusing error.
+# Load the model directly in this Streamlit process. This replaces the
+# separate FastAPI service for the single-app deployment.
 # ---------------------------------------------------------
 @st.cache_resource
-def check_backend():
-    return api_client.health()
+def load_app_state():
+    try:
+        api_key = st.secrets.get("OLLAMA_API_KEY", "")
+    except Exception:
+        api_key = ""
+
+    try:
+        client = get_client(api_key=api_key)
+        client_error = None
+    except RuntimeError as e:
+        client = None
+        client_error = str(e)
+
+    data = load_rules()
+    atlas = load_channel_atlas()
+    return {
+        "data": data,
+        "domain_background": load_domain_background(),
+        "brain_mapping": load_brain_mapping(),
+        "atlas": atlas,
+        "client": client,
+        "client_error": client_error,
+    }
 
 
 try:
-    health = check_backend()
-except BackendError as e:
-    st.error(
-        f"Can't reach the backend API.\n\n{e}\n\n"
-        f"Make sure it's running: `uvicorn backend:app --reload` "
-        f"(default expected at {api_client.BACKEND_URL})."
-    )
+    app_state = load_app_state()
+except Exception as e:
+    st.error(f"The model could not be loaded: {e}")
     st.stop()
 
-if health.get("status") != "ok":
+data = app_state["data"]
+target_name = data.get("target_name", "target")
+rules = data.get("rules", [])
+atlas = app_state["atlas"]
+
+if app_state["client"] is None:
     st.warning(
-        f"Backend is reachable but degraded: {health.get('llm_client_error')}. "
-        "Questions will still work using rule-matching only, without "
-        "natural-language explanations or visualizations."
+        f"The explanation model is unavailable: {app_state['client_error']}. "
+        "Questions will still use deterministic rule matching."
     )
 
-
-@st.cache_data(ttl=300)
-def load_rules_overview():
-    return api_client.get_rules()
-
-
-@st.cache_data(ttl=3600)  # static layout - safe to cache much longer
-def load_atlas():
-    return api_client.get_atlas()
-
-
-@st.cache_data(ttl=300)
-def load_overview_topomap():
-    return api_client.get_overview_topomap()
-
-
-@st.cache_data(ttl=300)
-def load_overview_chord():
-    return api_client.get_overview_chord()
-
-
-data = load_rules_overview()
-target_name = data.get("target_name", "target")
+overview_requested = resolve_requested_channels([], rules)
+overview_topomap = build_topomap_payload(rules, overview_requested, atlas)
+overview_chord = build_chord_payload(rules, overview_requested, atlas)
 
 # ---------------------------------------------------------
 # Sidebar: model overview + CV performance + all-rules visualizations
@@ -522,22 +530,20 @@ with st.sidebar:
             horizontal=True,
             key="overview_view_mode",
         )
-        try:
-            points = load_overview_topomap()
-            if points:
-                if view == "2D scalp map":
-                    st.vega_lite_chart(
-                        build_topomap_spec(points, atlas=load_atlas()),
-                        use_container_width=True,
-                    )
-                else:
-                    components.html(
-                        build_brain3d_html(points), height=VIZ_HEIGHT, scrolling=False
-                    )
+        if overview_topomap:
+            if view == "2D scalp map":
+                st.vega_lite_chart(
+                    build_topomap_spec(overview_topomap, atlas=atlas),
+                    use_container_width=True,
+                )
             else:
-                st.info("No channel data available.")
-        except BackendError as e:
-            st.warning(f"Couldn't load the overview topomap: {e}")
+                components.html(
+                    build_brain3d_html(overview_topomap),
+                    height=VIZ_HEIGHT,
+                    scrolling=False,
+                )
+        else:
+            st.info("No channel data available.")
 
     with st.expander("Connectivity (all rules)"):
         viz_caption(
@@ -545,16 +551,12 @@ with st.sidebar:
             "connection means the two channels appear ANDed in a rule's "
             "condition — not a measured physiological connectivity claim."
         )
-        try:
-            chord = load_overview_chord()
-            if chord.get("edges"):
-                components.html(
-                    build_chord_html(chord), height=VIZ_HEIGHT, scrolling=False
-                )
-            else:
-                st.info("No co-occurring channel pairs found across the rule set.")
-        except BackendError as e:
-            st.warning(f"Couldn't load the overview chord diagram: {e}")
+        if overview_chord.get("edges"):
+            components.html(
+                build_chord_html(overview_chord), height=VIZ_HEIGHT, scrolling=False
+            )
+        else:
+            st.info("No co-occurring channel pairs found across the rule set.")
 
     st.divider()
     if st.button("Clear chat", use_container_width=True):
@@ -582,7 +584,7 @@ def render_visualization(visualization: dict, key_prefix: str) -> None:
                 build_topomap_spec(
                     visualization["topomap"],
                     title="Channels behind this answer",
-                    atlas=load_atlas(),
+                    atlas=atlas,
                 ),
                 use_container_width=True,
             )
@@ -640,15 +642,35 @@ if question := st.chat_input("Ask about the model's rules..."):
     st.session_state.history.append({"role": "user", "content": question})
 
     with st.spinner("Thinking..."):
-        try:
-            result = api_client.ask(question)
-            answer = result.get("answer") or "The backend returned an empty answer."
-            retrieved = result.get("retrieved", [])
-            visualization = result.get("visualization")
-            used_fallback = bool(result.get("used_fallback"))
-        except BackendError as e:
-            answer = f"Something went wrong reaching the backend: {e}"
+        if not is_in_scope(question, rules, data.get("feature_names", [])):
+            answer = (
+                "I can only answer questions about this model's rules, its "
+                "channels, and its performance - that question looks outside "
+                "that scope, so I don't have a grounded answer for it."
+            )
             retrieved, visualization, used_fallback = [], None, False
+        elif app_state["client"] is None:
+            retrieved = retrieve_rules(question, rules, data["feature_names"])
+            answer = build_fallback_answer(retrieved, target_name)
+            visualization, used_fallback = None, True
+        else:
+            try:
+                result = ask_with_visualization(
+                    question,
+                    data,
+                    app_state["client"],
+                    domain_background=app_state["domain_background"],
+                    brain_mapping=app_state["brain_mapping"],
+                    channel_atlas=atlas,
+                )
+                answer = result.get("answer") or "The model returned an empty answer."
+                retrieved = result.get("retrieved", [])
+                visualization = result.get("visualization")
+                used_fallback = False
+            except Exception as e:
+                retrieved = retrieve_rules(question, rules, data["feature_names"])
+                answer = build_fallback_answer(retrieved, target_name)
+                visualization, used_fallback = None, True
 
     st.session_state.history.append(
         {

@@ -1058,8 +1058,9 @@ def load_api_key_from_local_file() -> str:
     return ""
 
 
-def get_client() -> Client:
-    api_key = os.environ.get("OLLAMA_API_KEY", "")
+def get_client(api_key: str = None) -> Client:
+    if not api_key:
+        api_key = os.environ.get("OLLAMA_API_KEY", "")
     if not api_key:
         api_key = load_api_key_from_local_file()
     if not api_key:
