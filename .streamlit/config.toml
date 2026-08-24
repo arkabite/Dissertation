@@ -1,0 +1,13 @@
+# "Amber Desk" - warm ivory paper with amber/brass accents.
+
+[theme]
+base = "light"
+primaryColor = "#B5761F"
+backgroundColor = "#FCF8F2"
+secondaryBackgroundColor = "#EFE3CF"
+textColor = "#332E28"
+font = "sans serif"
+
+[server]
+runOnSave = true
+enableStaticServing = true

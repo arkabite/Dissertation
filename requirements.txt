@@ -1,3 +1,6 @@
 streamlit
 ollama
 python-dotenv
+mne
+fastapi
+uvicorn

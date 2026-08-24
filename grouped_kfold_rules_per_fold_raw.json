@@ -1,0 +1,540 @@
+{
+  "1": {
+    "seeds": {
+      "6": [
+        {
+          "antecedent": "tmb_s1_chPPO3 IS Medium",
+          "consequent": "0 back",
+          "dominance_score": 0.058050743154792715,
+          "accuracy": 0.39705882352941174
+        },
+        {
+          "antecedent": "tmb_s2_chAF7 IS High",
+          "consequent": "0 back",
+          "dominance_score": 0.11404373428522055,
+          "accuracy": 0.6729559748427673
+        },
+        {
+          "antecedent": "tmb_s1_chAF2 IS Low AND tmb_s2_chAFF4h IS High",
+          "consequent": "2/3 back",
+          "dominance_score": 0.0900721281381818,
+          "accuracy": 0.9302325581395349
+        },
+        {
+          "antecedent": "tmb_s1_chAF8 IS High AND tmb_s1_chFCC4 IS Medium",
+          "consequent": "2/3 back",
+          "dominance_score": 0.10717448233321386,
+          "accuracy": 1.0
+        },
+        {
+          "antecedent": "tmb_s2_chAFp8 IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.21402056334686415,
+          "accuracy": 0.8486486486486486
+        },
+        {
+          "antecedent": "tmb_s2_chAF7 IS Low AND tmb_s2_chAFp4 IS Medium",
+          "consequent": "2/3 back",
+          "dominance_score": 0.08740077531894912,
+          "accuracy": 0.875
+        }
+      ],
+      "7": [
+        {
+          "antecedent": "tmb_s2_chAF8 IS High",
+          "consequent": "0 back",
+          "dominance_score": 0.10216083601101147,
+          "accuracy": 0.6753246753246753
+        },
+        {
+          "antecedent": "tmb_s1_chAF1 IS Low AND tmb_s1_chAFF3h IS Low AND tmb_s2_chAFp3 IS Medium",
+          "consequent": "2/3 back",
+          "dominance_score": 0.07638901808852597,
+          "accuracy": 0.8846153846153846
+        },
+        {
+          "antecedent": "tmb_s2_chC3h IS High AND tmb_s2_chPO2 IS Medium",
+          "consequent": "2/3 back",
+          "dominance_score": 0.058437118031302415,
+          "accuracy": 0.6551724137931034
+        },
+        {
+          "antecedent": "tmb_s1_chAFp3 IS Medium AND tmb_s2_chCCP3 IS Medium",
+          "consequent": "2/3 back",
+          "dominance_score": 0.0865643244665925,
+          "accuracy": 0.7758620689655172
+        },
+        {
+          "antecedent": "tmb_s1_chAFpz IS Low AND tmb_s1_chP6h IS Low AND tmb_s2_chAF2 IS High",
+          "consequent": "2/3 back",
+          "dominance_score": 0.058606275395691305,
+          "accuracy": 0.8888888888888888
+        },
+        {
+          "antecedent": "tmb_s2_chAFp4 IS Low AND tmb_s2_chPOOz IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.09565360211546166,
+          "accuracy": 0.8571428571428571
+        },
+        {
+          "antecedent": "tmb_s2_chAFp7 IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.21750861669383426,
+          "accuracy": 0.8697916666666666
+        }
+      ],
+      "8": [
+        {
+          "antecedent": "tmb_s2_chAFF4h IS Medium",
+          "consequent": "0 back",
+          "dominance_score": 0.05245419122906364,
+          "accuracy": 0.42105263157894735
+        },
+        {
+          "antecedent": "tmb_s2_chAFp7 IS High",
+          "consequent": "0 back",
+          "dominance_score": 0.09853422814289774,
+          "accuracy": 0.6906474820143885
+        },
+        {
+          "antecedent": "tmb_s2_chPPOz IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.21908731657013295,
+          "accuracy": 0.8695652173913043
+        },
+        {
+          "antecedent": "tmb_s1_chC6h IS Medium AND tmb_s2_chAF6h IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.09575539444390622,
+          "accuracy": 0.8536585365853658
+        },
+        {
+          "antecedent": "tmb_s1_chAFF3h IS Low AND tmb_s2_chAF2 IS High",
+          "consequent": "2/3 back",
+          "dominance_score": 0.10115038376001456,
+          "accuracy": 0.8703703703703703
+        }
+      ]
+    },
+    "n_rules_per_seed": [
+      6,
+      7,
+      5
+    ],
+    "single_seed_test_mcc": [
+      0.330431149525324,
+      0.38282586076037106,
+      0.31261776764363175
+    ]
+  },
+  "2": {
+    "seeds": {
+      "6": [
+        {
+          "antecedent": "tmb_s2_chAF8 IS High",
+          "consequent": "0 back",
+          "dominance_score": 0.10315977073968592,
+          "accuracy": 0.6178010471204188
+        },
+        {
+          "antecedent": "tmb_s2_chAFF6 IS Medium AND tmb_s2_chFCC3 IS Medium",
+          "consequent": "2/3 back",
+          "dominance_score": 0.11349442828800656,
+          "accuracy": 0.7931034482758621
+        },
+        {
+          "antecedent": "tmb_s2_chAF8 IS Medium AND tmb_s2_chAFp4 IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.08316642325511196,
+          "accuracy": 0.7719298245614035
+        },
+        {
+          "antecedent": "tmb_s2_chAF8 IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.23028659515161448,
+          "accuracy": 0.882051282051282
+        },
+        {
+          "antecedent": "tmb_s1_chP4h IS Low AND tmb_s1_chP6h IS Low AND tmb_s2_chFCC4 IS Medium",
+          "consequent": "2/3 back",
+          "dominance_score": 0.052676401667775,
+          "accuracy": 0.8
+        }
+      ],
+      "7": [
+        {
+          "antecedent": "tmb_s2_chP4h IS Medium",
+          "consequent": "0 back",
+          "dominance_score": 0.05365628762647828,
+          "accuracy": 0.5
+        },
+        {
+          "antecedent": "tmb_s2_chAF8 IS High",
+          "consequent": "0 back",
+          "dominance_score": 0.10315977073968592,
+          "accuracy": 0.6335403726708074
+        },
+        {
+          "antecedent": "tmb_s2_chAF7 IS Low AND tmb_s2_chPPO3 IS Medium",
+          "consequent": "2/3 back",
+          "dominance_score": 0.09554400696440997,
+          "accuracy": 0.9333333333333333
+        },
+        {
+          "antecedent": "tmb_s1_chCCP4 IS Medium AND tmb_s2_chPO2 IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.08344883179834627,
+          "accuracy": 0.92
+        },
+        {
+          "antecedent": "tmb_s1_chAFpz IS Medium AND tmb_s1_chP3h IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.07148690235090224,
+          "accuracy": 0.8372093023255814
+        },
+        {
+          "antecedent": "tmb_s1_chAF8 IS High",
+          "consequent": "2/3 back",
+          "dominance_score": 0.2247668953575217,
+          "accuracy": 0.882051282051282
+        }
+      ],
+      "8": [
+        {
+          "antecedent": "tmb_s2_chAFp8 IS High",
+          "consequent": "0 back",
+          "dominance_score": 0.09249306880577782,
+          "accuracy": 0.6862745098039216
+        },
+        {
+          "antecedent": "tmb_s2_chAF8 IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.23028659515161448,
+          "accuracy": 0.8795811518324608
+        },
+        {
+          "antecedent": "tmb_s1_chAFF3h IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.1938225875748721,
+          "accuracy": 0.7571428571428571
+        }
+      ]
+    },
+    "n_rules_per_seed": [
+      5,
+      6,
+      3
+    ],
+    "single_seed_test_mcc": [
+      0.3457468774707647,
+      0.12255110553085004,
+      0.449885285641931
+    ]
+  },
+  "3": {
+    "seeds": {
+      "6": [
+        {
+          "antecedent": "tmb_s2_chAF7 IS High",
+          "consequent": "0 back",
+          "dominance_score": 0.10914393286822352,
+          "accuracy": 0.5951219512195122
+        },
+        {
+          "antecedent": "tmb_s1_chPPO3 IS Medium AND tmb_s2_chAFp7 IS High",
+          "consequent": "0 back",
+          "dominance_score": 0.050862645191384906,
+          "accuracy": 0.3783783783783784
+        },
+        {
+          "antecedent": "tmb_s2_chAF7 IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.21497146373920137,
+          "accuracy": 0.8625592417061612
+        },
+        {
+          "antecedent": "tmb_s2_chAFp8 IS Low AND tmb_s2_chCPP4 IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.11072734529717129,
+          "accuracy": 0.9245283018867925
+        }
+      ],
+      "7": [
+        {
+          "antecedent": "tmb_s2_chAF7 IS High",
+          "consequent": "0 back",
+          "dominance_score": 0.10914393286822352,
+          "accuracy": 0.7414965986394558
+        },
+        {
+          "antecedent": "tmb_s1_chAFF3h IS Low AND tmb_s2_chAF8 IS Medium",
+          "consequent": "2/3 back",
+          "dominance_score": 0.08916519517431767,
+          "accuracy": 0.7837837837837838
+        },
+        {
+          "antecedent": "tmb_s2_chPPOz IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.22364838299080833,
+          "accuracy": 0.8403361344537815
+        },
+        {
+          "antecedent": "tmb_s1_chAFp3 IS High AND tmb_s2_chC5h IS Medium",
+          "consequent": "2/3 back",
+          "dominance_score": 0.06030965991516063,
+          "accuracy": 0.7
+        },
+        {
+          "antecedent": "tmb_s1_chC6h IS Low AND tmb_s1_chCCP3 IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.08607366097930212,
+          "accuracy": 0.7777777777777778
+        },
+        {
+          "antecedent": "tmb_s2_chAFp8 IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.20694215275579886,
+          "accuracy": 0.7627118644067796
+        },
+        {
+          "antecedent": "tmb_s2_chAF8 IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.2244930672828152,
+          "accuracy": 0.8759124087591241
+        }
+      ],
+      "8": [
+        {
+          "antecedent": "tmb_s1_chPOOz IS Medium",
+          "consequent": "0 back",
+          "dominance_score": 0.06699879433401194,
+          "accuracy": 0.5802469135802469
+        },
+        {
+          "antecedent": "tmb_s2_chAFp7 IS High",
+          "consequent": "0 back",
+          "dominance_score": 0.09270146178376425,
+          "accuracy": 0.6972477064220184
+        },
+        {
+          "antecedent": "tmb_s1_chPOOz IS High AND tmb_s2_chAFF6 IS Medium",
+          "consequent": "2/3 back",
+          "dominance_score": 0.06759106319177514,
+          "accuracy": 0.8648648648648649
+        },
+        {
+          "antecedent": "tmb_s1_chAF1 IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.19778526259119086,
+          "accuracy": 0.7608695652173914
+        },
+        {
+          "antecedent": "tmb_s2_chPPOz IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.22364838299080833,
+          "accuracy": 0.8633879781420765
+        }
+      ]
+    },
+    "n_rules_per_seed": [
+      4,
+      7,
+      5
+    ],
+    "single_seed_test_mcc": [
+      0.4957059567102125,
+      0.5369636262678972,
+      0.2717391304347826
+    ]
+  },
+  "4": {
+    "seeds": {
+      "6": [
+        {
+          "antecedent": "tmb_s2_chAF7 IS High AND tmb_s2_chAFF5 IS High",
+          "consequent": "0 back",
+          "dominance_score": 0.08537183549572987,
+          "accuracy": 0.7916666666666666
+        },
+        {
+          "antecedent": "tmb_s2_chPO2 IS High",
+          "consequent": "0 back",
+          "dominance_score": 0.07931067056651198,
+          "accuracy": 0.6705882352941176
+        },
+        {
+          "antecedent": "tmb_s2_chAF8 IS Low AND tmb_s2_chCCP4 IS Medium",
+          "consequent": "2/3 back",
+          "dominance_score": 0.09881267312089102,
+          "accuracy": 0.8928571428571429
+        },
+        {
+          "antecedent": "tmb_s1_chAFF3h IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.19832442564862032,
+          "accuracy": 0.8272251308900523
+        },
+        {
+          "antecedent": "tmb_s1_chPO2 IS High AND tmb_s2_chAFp8 IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.08037816089360691,
+          "accuracy": 0.875
+        },
+        {
+          "antecedent": "tmb_s1_chAF1 IS Medium AND tmb_s2_chPO2 IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.09520310318191715,
+          "accuracy": 0.8571428571428571
+        }
+      ],
+      "7": [
+        {
+          "antecedent": "tmb_s1_chAF7 IS Low",
+          "consequent": "0 back",
+          "dominance_score": 0.059303674863544834,
+          "accuracy": 0.7380952380952381
+        },
+        {
+          "antecedent": "tmb_s2_chAF6h IS High AND tmb_s2_chAFF6 IS High",
+          "consequent": "0 back",
+          "dominance_score": 0.0656330700306804,
+          "accuracy": 0.640625
+        },
+        {
+          "antecedent": "tmb_s2_chAF7 IS High AND tmb_s2_chAFpz IS Medium",
+          "consequent": "0 back",
+          "dominance_score": 0.06953108019367982,
+          "accuracy": 0.7884615384615384
+        },
+        {
+          "antecedent": "tmb_s1_chAF2 IS Low AND tmb_s1_chAFF3h IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.1339015594588016,
+          "accuracy": 0.8024691358024691
+        },
+        {
+          "antecedent": "tmb_s2_chAFp8 IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.21020042955798834,
+          "accuracy": 0.8145161290322581
+        },
+        {
+          "antecedent": "tmb_s2_chPO2 IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.2132774583001916,
+          "accuracy": 0.8622754491017964
+        }
+      ],
+      "8": [
+        {
+          "antecedent": "tmb_s2_chAF7 IS High",
+          "consequent": "0 back",
+          "dominance_score": 0.1147772056401186,
+          "accuracy": 0.6039603960396039
+        },
+        {
+          "antecedent": "tmb_s2_chAF8 IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.22952954306045834,
+          "accuracy": 0.8778280542986425
+        }
+      ]
+    },
+    "n_rules_per_seed": [
+      6,
+      6,
+      2
+    ],
+    "single_seed_test_mcc": [
+      0.2799352994838809,
+      0.31871883429081393,
+      0.30878482790434003
+    ]
+  },
+  "5": {
+    "seeds": {
+      "6": [
+        {
+          "antecedent": "tmb_s2_chAF7 IS High",
+          "consequent": "0 back",
+          "dominance_score": 0.11435129165725888,
+          "accuracy": 0.6704545454545454
+        },
+        {
+          "antecedent": "tmb_s2_chAFp8 IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.22325164243901072,
+          "accuracy": 0.8347826086956521
+        },
+        {
+          "antecedent": "tmb_s2_chAF7 IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.2285908980537681,
+          "accuracy": 0.888235294117647
+        },
+        {
+          "antecedent": "tmb_s2_chAFp8 IS Medium AND tmb_s2_chPPO3 IS Medium",
+          "consequent": "2/3 back",
+          "dominance_score": 0.09241506195393857,
+          "accuracy": 0.7922077922077922
+        }
+      ],
+      "7": [
+        {
+          "antecedent": "tmb_s1_chC5h IS Medium",
+          "consequent": "0 back",
+          "dominance_score": 0.05300832676179905,
+          "accuracy": 0.39285714285714285
+        },
+        {
+          "antecedent": "tmb_s2_chAF8 IS High",
+          "consequent": "0 back",
+          "dominance_score": 0.11029641969567043,
+          "accuracy": 0.6790123456790124
+        },
+        {
+          "antecedent": "tmb_s2_chAFp7 IS Low AND tmb_s2_chPOOz IS Medium",
+          "consequent": "2/3 back",
+          "dominance_score": 0.09567850933910926,
+          "accuracy": 0.896551724137931
+        },
+        {
+          "antecedent": "tmb_s1_chCCP3 IS Medium AND tmb_s2_chP3h IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.07895401030317768,
+          "accuracy": 0.96
+        },
+        {
+          "antecedent": "tmb_s2_chPPOz IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.2240662159431508,
+          "accuracy": 0.8769230769230769
+        }
+      ],
+      "8": [
+        {
+          "antecedent": "tmb_s1_chCPP3 IS Medium AND tmb_s2_chAFp8 IS High",
+          "consequent": "0 back",
+          "dominance_score": 0.07037022938948906,
+          "accuracy": 0.7739130434782608
+        },
+        {
+          "antecedent": "tmb_s1_chAFF3h IS Low",
+          "consequent": "2/3 back",
+          "dominance_score": 0.20739034406000026,
+          "accuracy": 0.8272727272727273
+        }
+      ]
+    },
+    "n_rules_per_seed": [
+      4,
+      5,
+      2
+    ],
+    "single_seed_test_mcc": [
+      0.25614531013994263,
+      0.29,
+      0.09933992677987828
+    ]
+  }
+}

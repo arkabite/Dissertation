@@ -11,9 +11,15 @@ __pycache__/
 # Environment / secrets
 .env
 .streamlit/
-secrets.toml
+!.streamlit/
+!.streamlit/config.toml
+.streamlit/secrets.toml
 streamlitlol/
 *.pkl
+
+# Private notes and local runtime data
+*.txt
+*.db
 
 # OS / editor junk
 .DS_Store

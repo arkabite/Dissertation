@@ -1,0 +1,106 @@
+{
+  "_notes": {
+    "purpose": "Deterministic glossary for translating opaque channel codes (e.g. tmb_s1_chAF5h) into readable labels. Two confidence tiers: 'sourced' fields are backed by this project's own code/data; 'general_association' fields are broad literature background and must always be presented as such, never as a confirmed property of a specific rule or channel.",
+    "signal_basis": "s1/s2 = HbO/HbR is documented directly in this project's MainFold.py feature-engineering comments: tmb_s1_ch* and tmb_s2_ch* are HbO and HbR derived from the SAME NIRS channel via the modified Beer-Lambert law, with the sign flipping with task load matching the source paper's Fig. 3 (HbO up / HbR down with n-back load) - classic neurovascular coupling.",
+    "location_basis": "Region/hemisphere codes follow the international 10-5 EEG/NIRS electrode system. For THIS project's dataset specifically, the functional grouping (frontal/motor/parietal/occipital) and the use of the 10-5 system are confirmed by the dataset's own methods description (NIRS montage: 16 frontal channels around AFz/AF3/AF4/AF7/AF8, 8 motor channels around C3/C4, 8 parietal channels around P3/P4, 4 occipital channels around POz; 36 channels total, matching this project's 36 NIRS channels x 2 signals = 72 features). The dataset paper names only the HUB electrode for each region; interpolated/compound-name channels (e.g. AFF3h, FCC3, CCP3) are assigned to a functional_region below by 10-5 grid proximity to their nearest hub, which is reliable for most codes but genuinely ambiguous for 'PPO' (PPOz clusters near occipital POz, while PPO3/PPO4 cluster near parietal P3/P4) - flagged explicitly, not resolved by guessing.",
+    "cognitive_basis": "Cognitive/functional associations below are broad literature generalizations about these scalp regions, not findings from this project's data or model. They must never be stated as if this specific rule or channel demonstrated that function.",
+    "hemisphere_basis": "Laterality convention (odd=left, even=right, z=midline) is the standard 10-5 system convention AND is confirmed applicable to this project's dataset, since its methods description states the montage follows the international 10-5 system."
+  },
+  "signals": {
+    "s1": {
+      "label": "Oxygenated hemoglobin (HbO)",
+      "confidence": "sourced",
+      "task_load_direction": "In this project's data, HbO typically INCREASES with higher n-back task load (per MainFold.py, matching the source paper's Fig. 3)."
+    },
+    "s2": {
+      "label": "Deoxygenated hemoglobin (HbR)",
+      "confidence": "sourced",
+      "task_load_direction": "In this project's data, HbR typically DECREASES with higher n-back task load (per MainFold.py, matching the source paper's Fig. 3) - classic neurovascular coupling with HbO."
+    }
+  },
+  "hemisphere_convention": {
+    "confidence": "confirmed_for_this_dataset",
+    "odd": "Left hemisphere (by standard 10-10 naming convention)",
+    "even": "Right hemisphere (by standard 10-10 naming convention)",
+    "z": "Midline, between hemispheres (by standard 10-10 naming convention)"
+  },
+  "regions": {
+    "AF": {
+      "location": "Anterior-frontal scalp region (standard 10-10 naming)",
+      "short": "AF, frontal",
+      "general_association": "Anterior-frontal/prefrontal regions are broadly discussed in the literature in connection with executive function and attention - general background only.",
+      "functional_region": "frontal",
+      "functional_region_basis": "sourced (dataset methods)"
+    },
+    "AFF": {
+      "location": "Anterior-frontal scalp region, between AF and F sites (standard 10-10 naming)",
+      "short": "AFF, frontal",
+      "general_association": "Same general frontal-region literature as AF - general background only.",
+      "functional_region": "frontal",
+      "functional_region_basis": "sourced (dataset methods)"
+    },
+    "AFp": {
+      "location": "Frontopolar scalp region, the most forward frontal sites (standard 10-10 naming)",
+      "short": "AFp, frontal",
+      "general_association": "Frontopolar regions are broadly discussed in connection with higher-order planning and multitasking in the literature - general background only.",
+      "functional_region": "frontal",
+      "functional_region_basis": "sourced (dataset methods)"
+    },
+    "C": {
+      "location": "Central scalp region, over sensorimotor cortex (standard 10-10 naming)",
+      "short": "C, motor",
+      "general_association": "Central regions are broadly discussed in connection with motor control/planning in the literature - general background only.",
+      "functional_region": "motor",
+      "functional_region_basis": "sourced (dataset methods)"
+    },
+    "FCC": {
+      "location": "Fronto-central scalp region, between frontal and central sites (standard 10-10 naming)",
+      "short": "FCC, motor",
+      "general_association": "Fronto-central regions are broadly discussed in connection with motor preparation in the literature - general background only.",
+      "functional_region": "motor",
+      "functional_region_basis": "sourced (dataset methods)"
+    },
+    "CCP": {
+      "location": "Centro-parietal scalp region, between central and parietal sites (standard 10-10 naming)",
+      "short": "CCP, motor",
+      "general_association": "Centro-parietal regions are broadly discussed in connection with sensorimotor integration in the literature - general background only.",
+      "functional_region": "motor",
+      "functional_region_basis": "sourced (dataset methods)"
+    },
+    "CPP": {
+      "location": "Centro-parietal scalp region (standard 10-10 naming)",
+      "short": "CPP, parietal",
+      "general_association": "Same general sensorimotor-integration literature as CCP - general background only.",
+      "functional_region": "parietal",
+      "functional_region_basis": "sourced (dataset methods)"
+    },
+    "P": {
+      "location": "Parietal scalp region (standard 10-10 naming)",
+      "short": "P, parietal",
+      "general_association": "Parietal regions are broadly discussed in connection with spatial and sensory integration in the literature - general background only.",
+      "functional_region": "parietal",
+      "functional_region_basis": "sourced (dataset methods)"
+    },
+    "PPO": {
+      "location": "Parieto-occipital scalp region, between parietal and occipital sites (standard 10-10 naming)",
+      "short": "PPO, parietal/occipital boundary-ambiguous",
+      "general_association": "Parieto-occipital regions are broadly discussed in connection with visual-spatial processing in the literature - general background only.",
+      "functional_region": "AMBIGUOUS - PPOz clusters near occipital POz; PPO3/PPO4 cluster near parietal P3/P4. Do not assert a single region for 'PPO' codes without the exact suffix.",
+      "functional_region_basis": "ambiguous - see note"
+    },
+    "PO": {
+      "location": "Parieto-occipital scalp region (standard 10-10 naming)",
+      "short": "PO, occipital",
+      "general_association": "Same general visual-spatial-processing literature as PPO - general background only.",
+      "functional_region": "occipital",
+      "functional_region_basis": "sourced (dataset methods)"
+    },
+    "POO": {
+      "location": "Occipital scalp region, near visual cortex (standard 10-10 naming)",
+      "short": "POO, occipital",
+      "general_association": "Occipital regions are broadly discussed in connection with visual processing in the literature - general background only.",
+      "functional_region": "occipital",
+      "functional_region_basis": "sourced (dataset methods)"
+    }
+  }
+}

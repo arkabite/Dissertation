@@ -1,0 +1,239 @@
+{
+  "feature_names": [
+    "tmb_s1_chAF1",
+    "tmb_s1_chAF2",
+    "tmb_s1_chAF5h",
+    "tmb_s1_chAF6h",
+    "tmb_s1_chAF7",
+    "tmb_s1_chAF8",
+    "tmb_s1_chAFF3h",
+    "tmb_s1_chAFF4h",
+    "tmb_s1_chAFF5",
+    "tmb_s1_chAFF6",
+    "tmb_s1_chAFFz",
+    "tmb_s1_chAFp3",
+    "tmb_s1_chAFp4",
+    "tmb_s1_chAFp7",
+    "tmb_s1_chAFp8",
+    "tmb_s1_chAFpz",
+    "tmb_s1_chC3h",
+    "tmb_s1_chC4h",
+    "tmb_s1_chC5h",
+    "tmb_s1_chC6h",
+    "tmb_s1_chCCP3",
+    "tmb_s1_chCCP4",
+    "tmb_s1_chCPP3",
+    "tmb_s1_chCPP4",
+    "tmb_s1_chFCC3",
+    "tmb_s1_chFCC4",
+    "tmb_s1_chP3h",
+    "tmb_s1_chP4h",
+    "tmb_s1_chP5h",
+    "tmb_s1_chP6h",
+    "tmb_s1_chPO1",
+    "tmb_s1_chPO2",
+    "tmb_s1_chPOOz",
+    "tmb_s1_chPPO3",
+    "tmb_s1_chPPO4",
+    "tmb_s1_chPPOz",
+    "tmb_s2_chAF1",
+    "tmb_s2_chAF2",
+    "tmb_s2_chAF5h",
+    "tmb_s2_chAF6h",
+    "tmb_s2_chAF7",
+    "tmb_s2_chAF8",
+    "tmb_s2_chAFF3h",
+    "tmb_s2_chAFF4h",
+    "tmb_s2_chAFF5",
+    "tmb_s2_chAFF6",
+    "tmb_s2_chAFFz",
+    "tmb_s2_chAFp3",
+    "tmb_s2_chAFp4",
+    "tmb_s2_chAFp7",
+    "tmb_s2_chAFp8",
+    "tmb_s2_chAFpz",
+    "tmb_s2_chC3h",
+    "tmb_s2_chC4h",
+    "tmb_s2_chC5h",
+    "tmb_s2_chC6h",
+    "tmb_s2_chCCP3",
+    "tmb_s2_chCCP4",
+    "tmb_s2_chCPP3",
+    "tmb_s2_chCPP4",
+    "tmb_s2_chFCC3",
+    "tmb_s2_chFCC4",
+    "tmb_s2_chP3h",
+    "tmb_s2_chP4h",
+    "tmb_s2_chP5h",
+    "tmb_s2_chP6h",
+    "tmb_s2_chPO1",
+    "tmb_s2_chPO2",
+    "tmb_s2_chPOOz",
+    "tmb_s2_chPPO3",
+    "tmb_s2_chPPO4",
+    "tmb_s2_chPPOz"
+  ],
+  "target_name": "stimulus",
+  "cv_performance_estimate": {
+    "test_accuracy_mean": 0.6908641975308643,
+    "test_accuracy_std": 0.07047641998221914,
+    "test_mcc_mean": 0.408302645703538,
+    "test_mcc_std": 0.11094487875629891,
+    "n_folds": 5
+  },
+  "n_seeds": 3,
+  "representative_seed": 7,
+  "seed_train_mcc": {
+    "6": 0.4894622706783644,
+    "7": 0.4856423735662508,
+    "8": 0.3273365776590149
+  },
+  "rule_stability_across_seeds": [
+    {
+      "antecedent": "tmb_s2_chAF7 IS High AND tmb_s2_chC6h IS High",
+      "consequent": "0 back",
+      "n_seeds_found": 1,
+      "n_seeds_total": 3
+    },
+    {
+      "antecedent": "tmb_s2_chAFF5 IS Low AND tmb_s2_chAFpz IS Medium",
+      "consequent": "2/3 back",
+      "n_seeds_found": 1,
+      "n_seeds_total": 3
+    },
+    {
+      "antecedent": "tmb_s1_chAFp4 IS Medium AND tmb_s2_chAF8 IS High",
+      "consequent": "0 back",
+      "n_seeds_found": 1,
+      "n_seeds_total": 3
+    },
+    {
+      "antecedent": "tmb_s2_chAFF5 IS Medium AND tmb_s2_chPPOz IS Low",
+      "consequent": "2/3 back",
+      "n_seeds_found": 1,
+      "n_seeds_total": 3
+    },
+    {
+      "antecedent": "tmb_s1_chAFF3h IS Low AND tmb_s2_chAF7 IS Medium",
+      "consequent": "2/3 back",
+      "n_seeds_found": 1,
+      "n_seeds_total": 3
+    },
+    {
+      "antecedent": "tmb_s2_chAF8 IS Low",
+      "consequent": "2/3 back",
+      "n_seeds_found": 1,
+      "n_seeds_total": 3
+    },
+    {
+      "antecedent": "tmb_s2_chPO2 IS High",
+      "consequent": "0 back",
+      "n_seeds_found": 1,
+      "n_seeds_total": 3
+    },
+    {
+      "antecedent": "tmb_s1_chAF5h IS Low AND tmb_s1_chAFF3h IS Low AND tmb_s2_chAFFz IS High",
+      "consequent": "2/3 back",
+      "n_seeds_found": 1,
+      "n_seeds_total": 3
+    },
+    {
+      "antecedent": "tmb_s1_chAFFz IS Low AND tmb_s1_chFCC4 IS Low",
+      "consequent": "2/3 back",
+      "n_seeds_found": 1,
+      "n_seeds_total": 3
+    },
+    {
+      "antecedent": "tmb_s2_chAFp8 IS Medium AND tmb_s2_chC5h IS Medium AND tmb_s2_chCCP3 IS Medium",
+      "consequent": "2/3 back",
+      "n_seeds_found": 1,
+      "n_seeds_total": 3
+    },
+    {
+      "antecedent": "tmb_s2_chAFp8 IS Low",
+      "consequent": "2/3 back",
+      "n_seeds_found": 1,
+      "n_seeds_total": 3
+    },
+    {
+      "antecedent": "tmb_s2_chAF7 IS High",
+      "consequent": "0 back",
+      "n_seeds_found": 1,
+      "n_seeds_total": 3
+    },
+    {
+      "antecedent": "tmb_s1_chC3h IS Medium AND tmb_s2_chPO1 IS Low",
+      "consequent": "2/3 back",
+      "n_seeds_found": 1,
+      "n_seeds_total": 3
+    },
+    {
+      "antecedent": "tmb_s2_chAFF6 IS High",
+      "consequent": "0 back",
+      "n_seeds_found": 1,
+      "n_seeds_total": 3
+    },
+    {
+      "antecedent": "tmb_s1_chAFF3h IS Low AND tmb_s1_chC5h IS Medium",
+      "consequent": "2/3 back",
+      "n_seeds_found": 1,
+      "n_seeds_total": 3
+    },
+    {
+      "antecedent": "tmb_s2_chAFp3 IS Medium AND tmb_s2_chPPOz IS Low",
+      "consequent": "2/3 back",
+      "n_seeds_found": 1,
+      "n_seeds_total": 3
+    },
+    {
+      "antecedent": "tmb_s1_chAF2 IS Low",
+      "consequent": "2/3 back",
+      "n_seeds_found": 1,
+      "n_seeds_total": 3
+    }
+  ],
+  "rules": [
+    {
+      "rule_id": 1,
+      "antecedent": "tmb_s2_chAF7 IS High",
+      "consequent": "0 back",
+      "dominance_score": 0.113656692406604,
+      "accuracy": 0.71875
+    },
+    {
+      "rule_id": 2,
+      "antecedent": "tmb_s1_chC3h IS Medium AND tmb_s2_chPO1 IS Low",
+      "consequent": "2/3 back",
+      "dominance_score": 0.08572192687941399,
+      "accuracy": 0.8409090909090909
+    },
+    {
+      "rule_id": 3,
+      "antecedent": "tmb_s1_chAFFz IS Low AND tmb_s1_chFCC4 IS Low",
+      "consequent": "2/3 back",
+      "dominance_score": 0.1184555098154723,
+      "accuracy": 0.8043478260869565
+    },
+    {
+      "rule_id": 4,
+      "antecedent": "tmb_s2_chAFp8 IS Medium AND tmb_s2_chC5h IS Medium AND tmb_s2_chCCP3 IS Medium",
+      "consequent": "2/3 back",
+      "dominance_score": 0.06358954278196932,
+      "accuracy": 0.8088235294117647
+    },
+    {
+      "rule_id": 5,
+      "antecedent": "tmb_s2_chAFp8 IS Low",
+      "consequent": "2/3 back",
+      "dominance_score": 0.21322722530551014,
+      "accuracy": 0.859504132231405
+    },
+    {
+      "rule_id": 6,
+      "antecedent": "tmb_s1_chAF5h IS Low AND tmb_s1_chAFF3h IS Low AND tmb_s2_chAFFz IS High",
+      "consequent": "2/3 back",
+      "dominance_score": 0.06617165414979644,
+      "accuracy": 0.9545454545454546
+    }
+  ]
+}

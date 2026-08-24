@@ -1,0 +1,642 @@
+{
+  "channels": {
+    "AF1": {
+      "x": -0.1581,
+      "y": 0.8939,
+      "x3d": -0.1611,
+      "y3d": 0.6971,
+      "z3d": 0.2857,
+      "region_code": "AF",
+      "functional_region": "frontal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Left hemisphere (by standard 10-10 naming convention)"
+    },
+    "AF2": {
+      "x": 0.1454,
+      "y": 0.896,
+      "x3d": 0.1729,
+      "y3d": 0.7006,
+      "z3d": 0.2858,
+      "region_code": "AF",
+      "functional_region": "frontal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Right hemisphere (by standard 10-10 naming convention)"
+    },
+    "AF5h": {
+      "x": -0.3434,
+      "y": 0.8911,
+      "x3d": -0.3458,
+      "y3d": 0.6531,
+      "z3d": 0.1193,
+      "region_code": "AF",
+      "functional_region": "frontal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Left hemisphere (by standard 10-10 naming convention)"
+    },
+    "AF6h": {
+      "x": 0.3291,
+      "y": 0.8957,
+      "x3d": 0.3572,
+      "y3d": 0.6608,
+      "z3d": 0.1209,
+      "region_code": "AF",
+      "functional_region": "frontal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Right hemisphere (by standard 10-10 naming convention)"
+    },
+    "AF7": {
+      "x": -0.5142,
+      "y": 0.9045,
+      "x3d": -0.4784,
+      "y3d": 0.5982,
+      "z3d": -0.0924,
+      "region_code": "AF",
+      "functional_region": "frontal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Left hemisphere (by standard 10-10 naming convention)"
+    },
+    "AF8": {
+      "x": 0.495,
+      "y": 0.9112,
+      "x3d": 0.4863,
+      "y3d": 0.6077,
+      "z3d": -0.0938,
+      "region_code": "AF",
+      "functional_region": "frontal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Right hemisphere (by standard 10-10 naming convention)"
+    },
+    "AFF3h": {
+      "x": -0.2755,
+      "y": 0.7832,
+      "x3d": -0.2994,
+      "y3d": 0.5967,
+      "z3d": 0.3593,
+      "region_code": "AFF",
+      "functional_region": "frontal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Left hemisphere (by standard 10-10 naming convention)"
+    },
+    "AFF4h": {
+      "x": 0.2667,
+      "y": 0.7872,
+      "x3d": 0.3157,
+      "y3d": 0.6033,
+      "z3d": 0.3599,
+      "region_code": "AFF",
+      "functional_region": "frontal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Right hemisphere (by standard 10-10 naming convention)"
+    },
+    "AFF5": {
+      "x": -0.4771,
+      "y": 0.7758,
+      "x3d": -0.487,
+      "y3d": 0.5356,
+      "z3d": 0.1037,
+      "region_code": "AFF",
+      "functional_region": "frontal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Left hemisphere (by standard 10-10 naming convention)"
+    },
+    "AFF6": {
+      "x": 0.4699,
+      "y": 0.7828,
+      "x3d": 0.506,
+      "y3d": 0.5461,
+      "z3d": 0.1038,
+      "region_code": "AFF",
+      "functional_region": "frontal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Right hemisphere (by standard 10-10 naming convention)"
+    },
+    "AFFz": {
+      "x": -0.0092,
+      "y": 0.7896,
+      "x3d": 0.0024,
+      "y3d": 0.6218,
+      "z3d": 0.4545,
+      "region_code": "AFF",
+      "functional_region": "frontal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Midline, between hemispheres (by standard 10-10 naming convention)"
+    },
+    "AFp3": {
+      "x": -0.205,
+      "y": 0.9895,
+      "x3d": -0.195,
+      "y3d": 0.729,
+      "z3d": 0.053,
+      "region_code": "AFp",
+      "functional_region": "frontal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Left hemisphere (by standard 10-10 naming convention)"
+    },
+    "AFp4": {
+      "x": 0.1941,
+      "y": 0.9918,
+      "x3d": 0.2103,
+      "y3d": 0.7361,
+      "z3d": 0.0648,
+      "region_code": "AFp",
+      "functional_region": "frontal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Right hemisphere (by standard 10-10 naming convention)"
+    },
+    "AFp7": {
+      "x": -0.4107,
+      "y": 0.9965,
+      "x3d": -0.3796,
+      "y3d": 0.6855,
+      "z3d": -0.0806,
+      "region_code": "AFp",
+      "functional_region": "frontal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Left hemisphere (by standard 10-10 naming convention)"
+    },
+    "AFp8": {
+      "x": 0.3875,
+      "y": 1.0,
+      "x3d": 0.3834,
+      "y3d": 0.6918,
+      "z3d": -0.0811,
+      "region_code": "AFp",
+      "functional_region": "frontal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Right hemisphere (by standard 10-10 naming convention)"
+    },
+    "AFpz": {
+      "x": -0.0106,
+      "y": 0.9926,
+      "x3d": 0.0015,
+      "y3d": 0.7618,
+      "z3d": 0.1522,
+      "region_code": "AFp",
+      "functional_region": "frontal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Midline, between hemispheres (by standard 10-10 naming convention)"
+    },
+    "C3h": {
+      "x": -0.364,
+      "y": 0.1703,
+      "x3d": -0.45,
+      "y3d": -0.0938,
+      "z3d": 0.6808,
+      "region_code": "C",
+      "functional_region": "motor",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Left hemisphere (by standard 10-10 naming convention)"
+    },
+    "C4h": {
+      "x": 0.3545,
+      "y": 0.1716,
+      "x3d": 0.4694,
+      "y3d": -0.0885,
+      "z3d": 0.6781,
+      "region_code": "C",
+      "functional_region": "motor",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Right hemisphere (by standard 10-10 naming convention)"
+    },
+    "C5h": {
+      "x": -0.5563,
+      "y": 0.1548,
+      "x3d": -0.6569,
+      "y3d": -0.1103,
+      "z3d": 0.4179,
+      "region_code": "C",
+      "functional_region": "motor",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Left hemisphere (by standard 10-10 naming convention)"
+    },
+    "C6h": {
+      "x": 0.5504,
+      "y": 0.1572,
+      "x3d": 0.6816,
+      "y3d": -0.1024,
+      "z3d": 0.4174,
+      "region_code": "C",
+      "functional_region": "motor",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Right hemisphere (by standard 10-10 naming convention)"
+    },
+    "CCP3": {
+      "x": -0.4723,
+      "y": 0.0404,
+      "x3d": -0.5769,
+      "y3d": -0.2556,
+      "z3d": 0.5749,
+      "region_code": "CCP",
+      "functional_region": "motor",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Left hemisphere (by standard 10-10 naming convention)"
+    },
+    "CCP4": {
+      "x": 0.4647,
+      "y": 0.0417,
+      "x3d": 0.6007,
+      "y3d": -0.2499,
+      "z3d": 0.5794,
+      "region_code": "CCP",
+      "functional_region": "motor",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Right hemisphere (by standard 10-10 naming convention)"
+    },
+    "CPP3": {
+      "x": -0.4267,
+      "y": -0.2014,
+      "x3d": -0.5183,
+      "y3d": -0.5577,
+      "z3d": 0.5468,
+      "region_code": "CPP",
+      "functional_region": "parietal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Left hemisphere (by standard 10-10 naming convention)"
+    },
+    "CPP4": {
+      "x": 0.4185,
+      "y": -0.2019,
+      "x3d": 0.5431,
+      "y3d": -0.555,
+      "z3d": 0.5472,
+      "region_code": "CPP",
+      "functional_region": "parietal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Right hemisphere (by standard 10-10 naming convention)"
+    },
+    "FCC3": {
+      "x": -0.4666,
+      "y": 0.2874,
+      "x3d": -0.5597,
+      "y3d": 0.0509,
+      "z3d": 0.5312,
+      "region_code": "FCC",
+      "functional_region": "motor",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Left hemisphere (by standard 10-10 naming convention)"
+    },
+    "FCC4": {
+      "x": 0.4484,
+      "y": 0.2889,
+      "x3d": 0.5685,
+      "y3d": 0.0578,
+      "z3d": 0.5239,
+      "region_code": "FCC",
+      "functional_region": "motor",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Right hemisphere (by standard 10-10 naming convention)"
+    },
+    "P3h": {
+      "x": -0.3006,
+      "y": -0.3068,
+      "x3d": -0.3636,
+      "y3d": -0.6958,
+      "z3d": 0.582,
+      "region_code": "P",
+      "functional_region": "parietal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Left hemisphere (by standard 10-10 naming convention)"
+    },
+    "P4h": {
+      "x": 0.2934,
+      "y": -0.3072,
+      "x3d": 0.3904,
+      "y3d": -0.6945,
+      "z3d": 0.5902,
+      "region_code": "P",
+      "functional_region": "parietal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Right hemisphere (by standard 10-10 naming convention)"
+    },
+    "P5h": {
+      "x": -0.4589,
+      "y": -0.3149,
+      "x3d": -0.5385,
+      "y3d": -0.6772,
+      "z3d": 0.3754,
+      "region_code": "P",
+      "functional_region": "parietal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Left hemisphere (by standard 10-10 naming convention)"
+    },
+    "P6h": {
+      "x": 0.4421,
+      "y": -0.3148,
+      "x3d": 0.5551,
+      "y3d": -0.6744,
+      "z3d": 0.3762,
+      "region_code": "P",
+      "functional_region": "parietal",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Right hemisphere (by standard 10-10 naming convention)"
+    },
+    "PO1": {
+      "x": -0.1493,
+      "y": -0.4801,
+      "x3d": -0.1655,
+      "y3d": -0.8878,
+      "z3d": 0.406,
+      "region_code": "PO",
+      "functional_region": "occipital",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Left hemisphere (by standard 10-10 naming convention)"
+    },
+    "PO2": {
+      "x": 0.1256,
+      "y": -0.4809,
+      "x3d": 0.1734,
+      "y3d": -0.888,
+      "z3d": 0.4047,
+      "region_code": "PO",
+      "functional_region": "occipital",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Right hemisphere (by standard 10-10 naming convention)"
+    },
+    "POOz": {
+      "x": -0.0144,
+      "y": -0.5543,
+      "x3d": 0.0015,
+      "y3d": -0.9533,
+      "z3d": 0.2861,
+      "region_code": "POO",
+      "functional_region": "occipital",
+      "functional_region_basis": "sourced (dataset methods)",
+      "hemisphere": "Midline, between hemispheres (by standard 10-10 naming convention)"
+    },
+    "PPO3": {
+      "x": -0.3433,
+      "y": -0.4042,
+      "x3d": -0.4027,
+      "y3d": -0.7929,
+      "z3d": 0.4139,
+      "region_code": "PPO",
+      "functional_region": "AMBIGUOUS - PPOz clusters near occipital POz; PPO3/PPO4 cluster near parietal P3/P4. Do not assert a single region for 'PPO' codes without the exact suffix.",
+      "functional_region_basis": "ambiguous - see note",
+      "hemisphere": "Left hemisphere (by standard 10-10 naming convention)"
+    },
+    "PPO4": {
+      "x": 0.3197,
+      "y": -0.4039,
+      "x3d": 0.4113,
+      "y3d": -0.7914,
+      "z3d": 0.4159,
+      "region_code": "PPO",
+      "functional_region": "AMBIGUOUS - PPOz clusters near occipital POz; PPO3/PPO4 cluster near parietal P3/P4. Do not assert a single region for 'PPO' codes without the exact suffix.",
+      "functional_region_basis": "ambiguous - see note",
+      "hemisphere": "Right hemisphere (by standard 10-10 naming convention)"
+    },
+    "PPOz": {
+      "x": -0.0123,
+      "y": -0.3944,
+      "x3d": 0.0024,
+      "y3d": -0.8092,
+      "z3d": 0.5875,
+      "region_code": "PPO",
+      "functional_region": "AMBIGUOUS - PPOz clusters near occipital POz; PPO3/PPO4 cluster near parietal P3/P4. Do not assert a single region for 'PPO' codes without the exact suffix.",
+      "functional_region_basis": "ambiguous - see note",
+      "hemisphere": "Midline, between hemispheres (by standard 10-10 naming convention)"
+    }
+  },
+  "mesh_edges": [
+    {
+      "a": "AF1",
+      "b": "AFF3h"
+    },
+    {
+      "a": "AF1",
+      "b": "AFFz"
+    },
+    {
+      "a": "AF1",
+      "b": "AFp3"
+    },
+    {
+      "a": "AF1",
+      "b": "AFpz"
+    },
+    {
+      "a": "AF2",
+      "b": "AFF4h"
+    },
+    {
+      "a": "AF2",
+      "b": "AFFz"
+    },
+    {
+      "a": "AF2",
+      "b": "AFp4"
+    },
+    {
+      "a": "AF2",
+      "b": "AFpz"
+    },
+    {
+      "a": "AF5h",
+      "b": "AF7"
+    },
+    {
+      "a": "AF5h",
+      "b": "AFF3h"
+    },
+    {
+      "a": "AF5h",
+      "b": "AFF5"
+    },
+    {
+      "a": "AF5h",
+      "b": "AFp3"
+    },
+    {
+      "a": "AF5h",
+      "b": "AFp7"
+    },
+    {
+      "a": "AF6h",
+      "b": "AF8"
+    },
+    {
+      "a": "AF6h",
+      "b": "AFF4h"
+    },
+    {
+      "a": "AF6h",
+      "b": "AFF6"
+    },
+    {
+      "a": "AF6h",
+      "b": "AFp4"
+    },
+    {
+      "a": "AF6h",
+      "b": "AFp8"
+    },
+    {
+      "a": "AF7",
+      "b": "AFF5"
+    },
+    {
+      "a": "AF7",
+      "b": "AFp7"
+    },
+    {
+      "a": "AF8",
+      "b": "AFF6"
+    },
+    {
+      "a": "AF8",
+      "b": "AFp8"
+    },
+    {
+      "a": "AFF3h",
+      "b": "AFF5"
+    },
+    {
+      "a": "AFF4h",
+      "b": "AFF6"
+    },
+    {
+      "a": "AFFz",
+      "b": "AFpz"
+    },
+    {
+      "a": "AFp3",
+      "b": "AFp7"
+    },
+    {
+      "a": "AFp3",
+      "b": "AFpz"
+    },
+    {
+      "a": "AFp4",
+      "b": "AFp8"
+    },
+    {
+      "a": "C3h",
+      "b": "C5h"
+    },
+    {
+      "a": "C3h",
+      "b": "CCP3"
+    },
+    {
+      "a": "C3h",
+      "b": "FCC3"
+    },
+    {
+      "a": "C4h",
+      "b": "C6h"
+    },
+    {
+      "a": "C4h",
+      "b": "CCP4"
+    },
+    {
+      "a": "C4h",
+      "b": "FCC4"
+    },
+    {
+      "a": "C5h",
+      "b": "CCP3"
+    },
+    {
+      "a": "C5h",
+      "b": "FCC3"
+    },
+    {
+      "a": "C6h",
+      "b": "CCP4"
+    },
+    {
+      "a": "C6h",
+      "b": "FCC4"
+    },
+    {
+      "a": "CCP3",
+      "b": "CPP3"
+    },
+    {
+      "a": "CCP3",
+      "b": "FCC3"
+    },
+    {
+      "a": "CCP4",
+      "b": "FCC4"
+    },
+    {
+      "a": "CPP3",
+      "b": "P3h"
+    },
+    {
+      "a": "CPP3",
+      "b": "P5h"
+    },
+    {
+      "a": "CPP3",
+      "b": "PPO3"
+    },
+    {
+      "a": "CPP4",
+      "b": "P4h"
+    },
+    {
+      "a": "CPP4",
+      "b": "P6h"
+    },
+    {
+      "a": "CPP4",
+      "b": "PPO4"
+    },
+    {
+      "a": "P3h",
+      "b": "P5h"
+    },
+    {
+      "a": "P3h",
+      "b": "PPO3"
+    },
+    {
+      "a": "P4h",
+      "b": "P6h"
+    },
+    {
+      "a": "P4h",
+      "b": "PPO4"
+    },
+    {
+      "a": "P5h",
+      "b": "PPO3"
+    },
+    {
+      "a": "P6h",
+      "b": "PPO4"
+    },
+    {
+      "a": "PO1",
+      "b": "POOz"
+    },
+    {
+      "a": "PO1",
+      "b": "PPO3"
+    },
+    {
+      "a": "PO1",
+      "b": "PPOz"
+    },
+    {
+      "a": "PO2",
+      "b": "POOz"
+    },
+    {
+      "a": "PO2",
+      "b": "PPO4"
+    },
+    {
+      "a": "PO2",
+      "b": "PPOz"
+    },
+    {
+      "a": "POOz",
+      "b": "PPOz"
+    }
+  ]
+}
