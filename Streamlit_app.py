@@ -477,7 +477,7 @@ overview_chord = build_chord_payload(rules, overview_requested, atlas)
 # ---------------------------------------------------------
 with st.sidebar:
     st.subheader("Model overview")
-    st.write(f"**{data.get('n_rules', 0)} rules** over target `{target_name}`")
+    st.write(f"**{len(rules)} rules** over target `{target_name}`")
 
     cv = data.get("cv_performance_estimate") or {}
     if cv:

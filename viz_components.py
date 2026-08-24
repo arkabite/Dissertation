@@ -19,7 +19,9 @@ discussion this came out of):
     a rewrite.
 """
 
+import base64
 import json
+from pathlib import Path
 
 REGION_COLORS = {
     "frontal": "#4C78A8",
@@ -529,7 +531,15 @@ def build_brain3d_html(points: list, mesh_urls: list = None) -> str:
     that loads wins (a base64 `data:model/gltf-binary;base64,...` URL
     works here too, if static file serving isn't available). Defaults to
     Streamlit's static folder plus relative fallbacks."""
-    urls = mesh_urls or ([BRAIN_MESH_URL] + BRAIN_MESH_FALLBACK_URLS)
+    if mesh_urls is None:
+      mesh_path = Path(__file__).resolve().parent / "static" / "fsaverage_brain.glb"
+      if mesh_path.exists():
+        mesh_data = base64.b64encode(mesh_path.read_bytes()).decode("ascii")
+        urls = [f"data:model/gltf-binary;base64,{mesh_data}"]
+      else:
+        urls = [BRAIN_MESH_URL] + BRAIN_MESH_FALLBACK_URLS
+    else:
+      urls = mesh_urls
     return (
         _BRAIN3D_TEMPLATE
         .replace("__DATA_JSON__", json.dumps(points))
