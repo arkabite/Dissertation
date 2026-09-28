@@ -1,3 +1,5 @@
+
+
 # """
 # viz_tools.py
 
@@ -59,9 +61,11 @@
 #                 "Display a scalp topomap: the physical location of one or "
 #                 "more fNIRS channels, coloured by their Low/Medium/High "
 #                 "activation level in the relevant rule(s). Call this when "
-#                 "the user asks WHERE a channel is, wants to see channel "
-#                 "locations, or asks about a single channel's activation "
-#                 "pattern spatially."
+#                 "the user asks WHERE a specific channel that appears in a "
+#                 "rule is, or asks about that channel's activation pattern "
+#                 "spatially. This does NOT answer 'which channels are near "
+#                 "X' - use show_channel_neighbors for physical adjacency "
+#                 "questions instead."
 #             ),
 #             "parameters": {
 #                 "type": "object",
@@ -87,9 +91,16 @@
 #             "name": "show_chord_diagram",
 #             "description": (
 #                 "Display a chord/connectivity diagram showing which "
-#                 "channels co-occur together within the same rule(s). Call "
-#                 "this when the user asks how channels RELATE or CONNECT, "
-#                 "not when they ask about a single channel's location."
+#                 "channels co-occur together WITHIN THE SAME RULE's "
+#                 "antecedent (a statistical/logical co-occurrence, from the "
+#                 "fitted rule set). Call this when the user asks how "
+#                 "channels appearing in the rules RELATE or CONNECT in the "
+#                 "model's decision logic. This does NOT model physical/"
+#                 "spatial proximity on the scalp - a question like 'which "
+#                 "channels are near AF7' is about physical adjacency, not "
+#                 "rule co-occurrence, so use show_channel_neighbors for "
+#                 "that instead, even though both use the word 'near' or "
+#                 "'connect' loosely in everyday English."
 #             ),
 #             "parameters": {
 #                 "type": "object",
@@ -104,6 +115,39 @@
 #                     }
 #                 },
 #                 "required": ["channels"],
+#             },
+#         },
+#     },
+#     {
+#         "type": "function",
+#         "function": {
+#             "name": "show_channel_neighbors",
+#             "description": (
+#                 "Display which channels sit physically NEAR/ADJACENT TO a "
+#                 "given channel on the actual scalp montage used by this "
+#                 "study - a purely spatial fact from the study's own "
+#                 "electrode layout, independent of any rule. Call this when "
+#                 "the user asks which channels are near, next to, "
+#                 "surrounding, or adjacent to a specific channel, or "
+#                 "otherwise asks a physical/anatomical-proximity question "
+#                 "about one channel's neighbors. Do NOT guess neighbors "
+#                 "from general 10-10/10-5 EEG knowledge or invent channel "
+#                 "names - this tool returns the ACTUAL neighbor list from "
+#                 "this study's own montage graph, which is the only "
+#                 "grounded source for this question."
+#             ),
+#             "parameters": {
+#                 "type": "object",
+#                 "properties": {
+#                     "channel": {
+#                         "type": "string",
+#                         "description": (
+#                             "The single electrode name the user is asking "
+#                             "about the physical neighbors of, e.g. 'AF7'."
+#                         ),
+#                     }
+#                 },
+#                 "required": ["channel"],
 #             },
 #         },
 #     },
@@ -131,6 +175,23 @@
 # def bare_channel_from_feature(feature: str) -> str:
 #     m = FEATURE_PATTERN.match(feature)
 #     return m.group(2) if m else feature
+
+
+# def resolve_single_channel(llm_channel: str, atlas: dict) -> str:
+#     """Matches a single raw LLM-provided channel string (e.g. 'AF7', 'af7',
+#     'tmb_s2_chAF7') against the ACTUAL channel codes in this study's atlas -
+#     not against the retrieved rules, since a neighbor question is about the
+#     physical montage, independent of which rules happened to be retrieved.
+#     Returns the canonical atlas key, or "" if there's no real match (never
+#     guesses a channel that isn't actually in this montage)."""
+#     if not llm_channel:
+#         return ""
+#     bare = bare_channel_from_feature(llm_channel) if llm_channel.lower().startswith("tmb_") else llm_channel
+#     bare_lower = bare.strip().lower()
+#     for code in atlas.get("channels", {}):
+#         if code.lower() == bare_lower:
+#             return code
+#     return ""
 
 
 # # ---------------------------------------------------------
@@ -176,7 +237,7 @@
 #                 continue
 #             seen.add(key)
 
-#             atlas_entry = atlas.get(tok["bare_channel"])
+#             atlas_entry = atlas["channels"].get(tok["bare_channel"])
 #             if atlas_entry is None:
 #                 continue  # unmapped channel - skip rather than guess a position
 
@@ -187,6 +248,9 @@
 #                 "level": tok["level"],
 #                 "x": atlas_entry["x"] + SIGNAL_OFFSET[tok["signal"]],
 #                 "y": atlas_entry["y"],
+#                 "x3d": atlas_entry.get("x3d"),
+#                 "y3d": atlas_entry.get("y3d"),
+#                 "z3d": atlas_entry.get("z3d"),
 #                 "functional_region": atlas_entry["functional_region"],
 #                 "hemisphere": atlas_entry["hemisphere"],
 #                 "rule_id": rule["rule_id"],
@@ -213,7 +277,7 @@
 
 #         for t in toks:
 #             if t["bare_channel"] not in nodes:
-#                 atlas_entry = atlas.get(t["bare_channel"], {})
+#                 atlas_entry = atlas["channels"].get(t["bare_channel"], {})
 #                 nodes[t["bare_channel"]] = {
 #                     "channel": t["bare_channel"],
 #                     "functional_region": atlas_entry.get("functional_region", "unknown"),
@@ -234,6 +298,52 @@
 #     return {"nodes": list(nodes.values()), "edges": edges}
 
 
+# def build_neighbors_payload(channel: str, atlas: dict) -> dict:
+#     """Physical-adjacency payload for one channel, built ENTIRELY from the
+#     atlas's own mesh_edges - no rule data, no LLM guessing. This is the
+#     grounded answer to "which channels are near X", as distinct from
+#     build_chord_payload's rule-co-occurrence answer to "which channels are
+#     connected to X". `channel` should already be resolved via
+#     resolve_single_channel(); an unresolved ("") channel returns found=False
+#     rather than guessing."""
+#     channels = atlas.get("channels", {})
+#     if not channel or channel not in channels:
+#         return {"channel": channel or None, "found": False, "position": None, "neighbors": []}
+
+#     entry = channels[channel]
+#     neighbor_codes = sorted({
+#         e["b"] for e in atlas.get("mesh_edges", []) if e["a"] == channel
+#     } | {
+#         e["a"] for e in atlas.get("mesh_edges", []) if e["b"] == channel
+#     })
+
+#     neighbors = []
+#     for code in neighbor_codes:
+#         n_entry = channels.get(code)
+#         if n_entry is None:
+#             continue  # atlas mesh_edges referencing an unmapped code - skip rather than guess
+#         neighbors.append({
+#             "channel": code,
+#             "x": n_entry["x"],
+#             "y": n_entry["y"],
+#             "x3d": n_entry.get("x3d"),
+#             "y3d": n_entry.get("y3d"),
+#             "z3d": n_entry.get("z3d"),
+#             "functional_region": n_entry.get("functional_region", "unknown"),
+#             "hemisphere": n_entry.get("hemisphere", "unknown"),
+#         })
+
+#     return {
+#         "channel": channel,
+#         "found": True,
+#         "position": {
+#             "x": entry["x"], "y": entry["y"],
+#             "x3d": entry.get("x3d"), "y3d": entry.get("y3d"), "z3d": entry.get("z3d"),
+#         },
+#         "neighbors": neighbors,
+#     }
+
+
 # # ---------------------------------------------------------
 # # 5. Compact text summary handed BACK to the LLM for the narration turn
 # #    (not the raw payload - the LLM doesn't need 30 fields per point,
@@ -252,13 +362,56 @@
 
 # def summarize_chord_for_llm(chord: dict) -> str:
 #     if not chord["edges"]:
-#         return "No co-occurring channel pairs were found to connect."
+#         if chord.get("nodes"):
+#             # The channel(s) DO appear in the retrieved rules - they just
+#             # never co-occur with another channel in the same rule's
+#             # antecedent. Without this distinction spelled out, the LLM
+#             # has been observed over-extrapolating "no edges" into the
+#             # stronger, false claim "this channel isn't in any rule" -
+#             # give it the actual node list so it can't make that leap.
+#             names = ", ".join(sorted(n["channel"] for n in chord["nodes"]))
+#             return (
+#                 "No co-occurring channel pairs were found - none of these "
+#                 "channels appear together with another channel in the "
+#                 f"same rule's antecedent. However, these channel(s) DO "
+#                 f"appear individually in the retrieved rules (each alone, "
+#                 f"or only with channels outside the requested set): {names}. "
+#                 "State plainly that no connection exists between them, "
+#                 "not that the channel is absent from the rule set."
+#             )
+#         return "No matching channels were found in the retrieved rules to connect."
 #     lines = [
 #         f"- {e['source']} <-> {e['target']} (rule {e['rule_id']}, "
 #         f"predicts {e['consequent']}, accuracy={e.get('accuracy', 'n/a')})"
 #         for e in chord["edges"]
 #     ]
 #     return "Chord diagram rendered with these connections:\n" + "\n".join(lines)
+
+
+# def summarize_neighbors_for_llm(payload: dict) -> str:
+#     if not payload.get("found"):
+#         requested = payload.get("channel") or "the requested name"
+#         return (
+#             f"'{requested}' does not match any channel in this study's "
+#             "montage - do not invent or guess neighbor channels; state "
+#             "plainly that this channel isn't part of the montage."
+#         )
+#     if not payload["neighbors"]:
+#         return (
+#             f"{payload['channel']} has no recorded neighbors in this "
+#             "study's montage graph - say plainly that no adjacency data "
+#             "is available for it, do not guess neighbors from general "
+#             "10-10/10-5 EEG knowledge."
+#         )
+#     names = ", ".join(n["channel"] for n in payload["neighbors"])
+#     return (
+#         f"Channel-neighbor map rendered for {payload['channel']}. Its "
+#         f"physically adjacent channels in this study's own montage graph "
+#         f"(NOT a rule-derived relationship) are: {names}. These are the "
+#         "ONLY channels you may state as neighbors - do not add any "
+#         "channel name not in this list, even if it seems plausible from "
+#         "general EEG/fNIRS layout knowledge."
+#     )
 
 """
 viz_tools.py
@@ -305,7 +458,7 @@ SIGNAL_OFFSET = {"s1": -0.02, "s2": 0.02}
 
 
 def load_channel_atlas(path: str = CHANNEL_ATLAS_PATH) -> dict:
-    with open(path, "r") as f:
+    with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -321,9 +474,17 @@ VIZ_TOOLS = [
                 "Display a scalp topomap: the physical location of one or "
                 "more fNIRS channels, coloured by their Low/Medium/High "
                 "activation level in the relevant rule(s). Call this when "
-                "the user asks WHERE a channel is, wants to see channel "
-                "locations, or asks about a single channel's activation "
-                "pattern spatially."
+                "the user asks WHERE a channel that appears in a rule is, "
+                "asks about a channel's activation pattern spatially, OR "
+                "asks to see the WHOLE/FULL/ENTIRE/ALL-channel map across "
+                "every rule (e.g. 'show me the whole channel map', 'show "
+                "every channel') - for that case, pass every channel "
+                "mentioned across the currently retrieved rules, not just "
+                "one. Do not refuse a 'whole map' request; this tool "
+                "supports any number of channels at once, including all of "
+                "them. This does NOT answer 'which channels are near X' - "
+                "use show_channel_neighbors for physical adjacency "
+                "questions instead."
             ),
             "parameters": {
                 "type": "object",
@@ -333,9 +494,12 @@ VIZ_TOOLS = [
                         "items": {"type": "string"},
                         "description": (
                             "Electrode names mentioned or implied by the "
-                            "question, e.g. ['AF7', 'C6h']. Best guess is "
-                            "fine - the backend resolves these against the "
-                            "actual rules."
+                            "question, e.g. ['AF7', 'C6h']. For a 'whole "
+                            "channel map' request, list every channel "
+                            "mentioned across all currently retrieved "
+                            "rules. Best guess is fine either way - the "
+                            "backend resolves these against the actual "
+                            "rules."
                         ),
                     }
                 },
@@ -349,9 +513,16 @@ VIZ_TOOLS = [
             "name": "show_chord_diagram",
             "description": (
                 "Display a chord/connectivity diagram showing which "
-                "channels co-occur together within the same rule(s). Call "
-                "this when the user asks how channels RELATE or CONNECT, "
-                "not when they ask about a single channel's location."
+                "channels co-occur together WITHIN THE SAME RULE's "
+                "antecedent (a statistical/logical co-occurrence, from the "
+                "fitted rule set). Call this when the user asks how "
+                "channels appearing in the rules RELATE or CONNECT in the "
+                "model's decision logic. This does NOT model physical/"
+                "spatial proximity on the scalp - a question like 'which "
+                "channels are near AF7' is about physical adjacency, not "
+                "rule co-occurrence, so use show_channel_neighbors for "
+                "that instead, even though both use the word 'near' or "
+                "'connect' loosely in everyday English."
             ),
             "parameters": {
                 "type": "object",
@@ -366,6 +537,39 @@ VIZ_TOOLS = [
                     }
                 },
                 "required": ["channels"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "show_channel_neighbors",
+            "description": (
+                "Display which channels sit physically NEAR/ADJACENT TO a "
+                "given channel on the actual scalp montage used by this "
+                "study - a purely spatial fact from the study's own "
+                "electrode layout, independent of any rule. Call this when "
+                "the user asks which channels are near, next to, "
+                "surrounding, or adjacent to a specific channel, or "
+                "otherwise asks a physical/anatomical-proximity question "
+                "about one channel's neighbors. Do NOT guess neighbors "
+                "from general 10-10/10-5 EEG knowledge or invent channel "
+                "names - this tool returns the ACTUAL neighbor list from "
+                "this study's own montage graph, which is the only "
+                "grounded source for this question."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "channel": {
+                        "type": "string",
+                        "description": (
+                            "The single electrode name the user is asking "
+                            "about the physical neighbors of, e.g. 'AF7'."
+                        ),
+                    }
+                },
+                "required": ["channel"],
             },
         },
     },
@@ -393,6 +597,23 @@ def parse_rule_channels(antecedent: str) -> list:
 def bare_channel_from_feature(feature: str) -> str:
     m = FEATURE_PATTERN.match(feature)
     return m.group(2) if m else feature
+
+
+def resolve_single_channel(llm_channel: str, atlas: dict) -> str:
+    """Matches a single raw LLM-provided channel string (e.g. 'AF7', 'af7',
+    'tmb_s2_chAF7') against the ACTUAL channel codes in this study's atlas -
+    not against the retrieved rules, since a neighbor question is about the
+    physical montage, independent of which rules happened to be retrieved.
+    Returns the canonical atlas key, or "" if there's no real match (never
+    guesses a channel that isn't actually in this montage)."""
+    if not llm_channel:
+        return ""
+    bare = bare_channel_from_feature(llm_channel) if llm_channel.lower().startswith("tmb_") else llm_channel
+    bare_lower = bare.strip().lower()
+    for code in atlas.get("channels", {}):
+        if code.lower() == bare_lower:
+            return code
+    return ""
 
 
 # ---------------------------------------------------------
@@ -499,6 +720,52 @@ def build_chord_payload(retrieved: list, requested_channels: set, atlas: dict) -
     return {"nodes": list(nodes.values()), "edges": edges}
 
 
+def build_neighbors_payload(channel: str, atlas: dict) -> dict:
+    """Physical-adjacency payload for one channel, built ENTIRELY from the
+    atlas's own mesh_edges - no rule data, no LLM guessing. This is the
+    grounded answer to "which channels are near X", as distinct from
+    build_chord_payload's rule-co-occurrence answer to "which channels are
+    connected to X". `channel` should already be resolved via
+    resolve_single_channel(); an unresolved ("") channel returns found=False
+    rather than guessing."""
+    channels = atlas.get("channels", {})
+    if not channel or channel not in channels:
+        return {"channel": channel or None, "found": False, "position": None, "neighbors": []}
+
+    entry = channels[channel]
+    neighbor_codes = sorted({
+        e["b"] for e in atlas.get("mesh_edges", []) if e["a"] == channel
+    } | {
+        e["a"] for e in atlas.get("mesh_edges", []) if e["b"] == channel
+    })
+
+    neighbors = []
+    for code in neighbor_codes:
+        n_entry = channels.get(code)
+        if n_entry is None:
+            continue  # atlas mesh_edges referencing an unmapped code - skip rather than guess
+        neighbors.append({
+            "channel": code,
+            "x": n_entry["x"],
+            "y": n_entry["y"],
+            "x3d": n_entry.get("x3d"),
+            "y3d": n_entry.get("y3d"),
+            "z3d": n_entry.get("z3d"),
+            "functional_region": n_entry.get("functional_region", "unknown"),
+            "hemisphere": n_entry.get("hemisphere", "unknown"),
+        })
+
+    return {
+        "channel": channel,
+        "found": True,
+        "position": {
+            "x": entry["x"], "y": entry["y"],
+            "x3d": entry.get("x3d"), "y3d": entry.get("y3d"), "z3d": entry.get("z3d"),
+        },
+        "neighbors": neighbors,
+    }
+
+
 # ---------------------------------------------------------
 # 5. Compact text summary handed BACK to the LLM for the narration turn
 #    (not the raw payload - the LLM doesn't need 30 fields per point,
@@ -517,10 +784,53 @@ def summarize_topomap_for_llm(points: list) -> str:
 
 def summarize_chord_for_llm(chord: dict) -> str:
     if not chord["edges"]:
-        return "No co-occurring channel pairs were found to connect."
+        if chord.get("nodes"):
+            # The channel(s) DO appear in the retrieved rules - they just
+            # never co-occur with another channel in the same rule's
+            # antecedent. Without this distinction spelled out, the LLM
+            # has been observed over-extrapolating "no edges" into the
+            # stronger, false claim "this channel isn't in any rule" -
+            # give it the actual node list so it can't make that leap.
+            names = ", ".join(sorted(n["channel"] for n in chord["nodes"]))
+            return (
+                "No co-occurring channel pairs were found - none of these "
+                "channels appear together with another channel in the "
+                f"same rule's antecedent. However, these channel(s) DO "
+                f"appear individually in the retrieved rules (each alone, "
+                f"or only with channels outside the requested set): {names}. "
+                "State plainly that no connection exists between them, "
+                "not that the channel is absent from the rule set."
+            )
+        return "No matching channels were found in the retrieved rules to connect."
     lines = [
         f"- {e['source']} <-> {e['target']} (rule {e['rule_id']}, "
         f"predicts {e['consequent']}, accuracy={e.get('accuracy', 'n/a')})"
         for e in chord["edges"]
     ]
     return "Chord diagram rendered with these connections:\n" + "\n".join(lines)
+
+
+def summarize_neighbors_for_llm(payload: dict) -> str:
+    if not payload.get("found"):
+        requested = payload.get("channel") or "the requested name"
+        return (
+            f"'{requested}' does not match any channel in this study's "
+            "montage - do not invent or guess neighbor channels; state "
+            "plainly that this channel isn't part of the montage."
+        )
+    if not payload["neighbors"]:
+        return (
+            f"{payload['channel']} has no recorded neighbors in this "
+            "study's montage graph - say plainly that no adjacency data "
+            "is available for it, do not guess neighbors from general "
+            "10-10/10-5 EEG knowledge."
+        )
+    names = ", ".join(n["channel"] for n in payload["neighbors"])
+    return (
+        f"Channel-neighbor map rendered for {payload['channel']}. Its "
+        f"physically adjacent channels in this study's own montage graph "
+        f"(NOT a rule-derived relationship) are: {names}. These are the "
+        "ONLY channels you may state as neighbors - do not add any "
+        "channel name not in this list, even if it seems plausible from "
+        "general EEG/fNIRS layout knowledge."
+    )

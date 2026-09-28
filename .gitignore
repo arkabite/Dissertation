@@ -24,3 +24,7 @@ streamlitlol/
 # OS / editor junk
 .DS_Store
 Thumbs.db
+
+# Node/Vite frontend dependencies and build output
+node_modules/
+dist/

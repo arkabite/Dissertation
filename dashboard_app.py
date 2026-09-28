@@ -20,7 +20,7 @@ import json
 import pandas as pd
 import streamlit as st
 
-RULES_PATH = "extracted_rules_final.json"
+RULES_PATH = "extracted_rules_final_raw.json"
 
 # ---------------------------------------------------------
 # Glossary — kept word-for-word identical to the copy in Streamlit_app.py

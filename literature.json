@@ -1,0 +1,38 @@
+[
+  {
+    "id": "shin2018",
+    "citation": "Shin, J., von Lühmann, A., Kim, D.-W., Mehnert, J., Hwang, H.-J., & Müller, K.-R. (2018). Simultaneous acquisition of EEG and NIRS during cognitive tasks for an open access dataset. Scientific Data, 5, 180003.",
+    "doi": "10.1038/sdata.2018.3",
+    "url": "https://doi.org/10.1038/sdata.2018.3",
+    "topic_tags": [
+      "shin", "dataset", "source", "montage", "eeg", "nirs", "fnirs",
+      "0back", "2back", "3back", "nback", "channel", "channels", "fig3",
+      "figure3", "prefrontal", "hbo", "hbr", "bilateral"
+    ],
+    "summary": "Shin et al. published an open dataset of 26 participants performing simultaneous EEG and NIRS recording across several cognitive tasks, including an n-back paradigm with 0-, 2-, and 3-back conditions - this project's own dataset appears to derive from the NIRS arm of that resource, based on matching channel layout and naming. Their own topographic results show HbR concentration falling and HbO concentration rising bilaterally in prefrontal channels as n-back memory load increases, most pronounced in lateral prefrontal sites - the same direction of change assumed in this project's own feature engineering. Their published classification benchmarks use EEG-derived features under a pairwise 2-back-vs-0-back comparison, which differs methodologically from this project's NIRS-only, merged 2/3-back-vs-0-back scheme, so those accuracy figures are not a fair direct comparison to this project's own results."
+  },
+  {
+    "id": "yeung_han2023",
+    "citation": "Yeung, M. K., & Han, Y. M. Y. (2023). Changes in task performance and frontal cortex activation within and over sessions during the n-back task. Scientific Reports, 13, 3363.",
+    "doi": "10.1038/s41598-023-30552-9",
+    "url": "https://doi.org/10.1038/s41598-023-30552-9",
+    "topic_tags": [
+      "nback", "1back", "3back", "load", "dorsolateral", "ventrolateral",
+      "prefrontal", "hbo", "hbr", "workingmemory", "memory", "reliability",
+      "testretest", "frontal", "session", "practice"
+    ],
+    "summary": "Yeung and Han (2023) tracked 40 adults performing 1-back and 3-back tasks with fNIRS, repeated across blocks and across two sessions three weeks apart. HbO increases in the dorsolateral and ventrolateral prefrontal cortex scaled with memory load (larger for 3-back than 1-back), while more medial/anterior frontal regions activated similarly regardless of load - suggesting a functional split between load-sensitive lateral prefrontal sites and load-independent regions more tied to sustained attention. Reproducibility across sessions was only fair-to-good even for the strongest effects, and HbR measures were consistently noisier and less reproducible than HbO - a relevant caution given this project's own finding that its symbolic rules are highly seed-sensitive."
+  },
+  {
+    "id": "cheng2024",
+    "citation": "Cheng, S., Cong, L., Hui, D., Teng, C., Li, W., & Ma, J. (2024). Enhancement of prefrontal functional connectivity under the influence of concurrent physical load during mental tasks. Frontiers in Human Neuroscience, 18, 1500470.",
+    "doi": "10.3389/fnhum.2024.1500470",
+    "url": "https://doi.org/10.3389/fnhum.2024.1500470",
+    "topic_tags": [
+      "connectivity", "functionalconnectivity", "chord", "connection",
+      "cooccurrence", "dlpfc", "orbitofrontal", "physicalload",
+      "cognitiveload", "hbo", "nback", "channelpair", "correlation"
+    ],
+    "summary": "Cheng et al. (2024) used an 8-channel prefrontal fNIRS montage to study how n-back working-memory load and simultaneous physical exertion jointly affect functional connectivity between prefrontal regions, computed from correlations between channel-pair HbO time series over a session. Connectivity between the right dorsolateral prefrontal cortex and bilateral orbitofrontal channels increased specifically under the combination of high cognitive and high physical load, more than either factor alone. This is a useful general-background analogy for what a chord/connectivity diagram over fNIRS channels conceptually represents - though their connectivity is a measured, continuous correlation between raw signal time series across a whole session, not a discrete logical co-occurrence inside a fitted symbolic rule's antecedent, which is what this project's own chord diagram actually encodes. Worth flagging this distinction if a user's question seems to conflate the two from surface-level wording alone."
+  }
+]

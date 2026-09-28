@@ -37,6 +37,7 @@
 #     http://127.0.0.1:8000/docs
 # """
 
+# import os
 # import sqlite3
 # import time
 # from contextlib import asynccontextmanager
@@ -51,14 +52,15 @@
 #     RULES_PATH, CLOUD_MODEL,
 #     load_rules, load_domain_background, load_brain_mapping, get_client,
 #     retrieve_rules, build_prompt, build_stability_lookup,
-#     is_in_scope, build_fallback_answer, ask_with_visualization,
+#     is_in_scope, classify_scope, build_fallback_answer,
+#     ask_with_visualization, ask_general_neuro,
 # )
 # from viz_tools import (
 #     load_channel_atlas, resolve_requested_channels,
 #     build_topomap_payload, build_chord_payload,
 # )
 
-# DB_PATH = "interactions.db"
+# DB_PATH = os.environ.get("DB_PATH", "interactions.db")
 
 # # Loaded once at process startup - the FastAPI equivalent of
 # # streamlit_app.py's @st.cache_resource init(). A plain dict is enough
@@ -70,6 +72,9 @@
 # # SQLite logging
 # # ---------------------------------------------------------
 # def init_db() -> None:
+#     db_directory = os.path.dirname(DB_PATH)
+#     if db_directory:
+#         os.makedirs(db_directory, exist_ok=True)
 #     conn = sqlite3.connect(DB_PATH)
 #     conn.execute(
 #         """
@@ -164,6 +169,7 @@
 #         "http://127.0.0.1:5174",
 #         "http://localhost:8501",   # Streamlit's default dev port
 #         "http://127.0.0.1:8501",
+#         "https://fnirsragweb7f3a26.z1.web.core.windows.net",
 #     ],
 #     allow_credentials=True,
 #     allow_methods=["GET", "POST"],
@@ -193,6 +199,9 @@
 #     level: str
 #     x: float
 #     y: float
+#     x3d: Optional[float] = None
+#     y3d: Optional[float] = None
+#     z3d: Optional[float] = None
 #     functional_region: str
 #     hemisphere: str
 #     rule_id: int | str
@@ -220,19 +229,54 @@
 #     edges: list[ChordEdge]
 
 
+# class NeighborChannel(BaseModel):
+#     channel: str
+#     x: float
+#     y: float
+#     x3d: Optional[float] = None
+#     y3d: Optional[float] = None
+#     z3d: Optional[float] = None
+#     functional_region: str
+#     hemisphere: str
+
+
+# class NeighborPosition(BaseModel):
+#     x: float
+#     y: float
+#     x3d: Optional[float] = None
+#     y3d: Optional[float] = None
+#     z3d: Optional[float] = None
+
+
+# class NeighborsData(BaseModel):
+#     channel: Optional[str] = None
+#     found: bool
+#     position: Optional[NeighborPosition] = None
+#     neighbors: list[NeighborChannel] = []
+
+
 # class VisualizationOut(BaseModel):
-#     type: str  # "topomap" | "chord"
+#     type: str  # "topomap" | "chord" | "neighbors"
 #     topomap: Optional[list[TopomapPoint]] = None
 #     chord: Optional[ChordData] = None
+#     neighbors: Optional[NeighborsData] = None
+
+
+# class Citation(BaseModel):
+#     citation: str
+#     url: str
+#     summary: str
 
 
 # class AskResponse(BaseModel):
 #     answer: str
 #     retrieved: list[RuleOut]
 #     in_scope: bool
+#     scope_tier: str  # "grounded" | "general" | "out_of_scope"
 #     used_fallback: bool
 #     latency_ms: float
 #     visualization: Optional[VisualizationOut] = None
+#     citations: list[Citation] = []
 
 
 # class RulesResponse(BaseModel):
@@ -268,6 +312,17 @@
 #     )
 
 
+# @app.get("/atlas")
+# def get_atlas():
+#     """Full static 36-channel layout (position, region, hemisphere) plus
+#     a nearest-neighbour mesh graph for the montage's grid lines. This is
+#     NOT rule-dependent - it's the same every time by design, so the
+#     frontend should cache it (see api_client.py's ttl on this call) and
+#     use it as a fixed background layer, with the per-question/overview
+#     topomap points drawn on top as highlights."""
+#     return state["channel_atlas"]
+
+
 # @app.get("/visualize/topomap", response_model=list[TopomapPoint])
 # def visualize_topomap_overview():
 #     """Topomap over EVERY rule in the model, not just ones matching a
@@ -297,19 +352,63 @@
 #     data = state["data"]
 #     start = time.perf_counter()
 
-#     # --- Scope guard: skip the LLM call entirely for off-domain questions ---
-#     if not is_in_scope(question, data["rules"], data["feature_names"]):
+#     # --- Three-way scope classification (was a binary in/out check) ---
+#     # "grounded"     -> unchanged path: answer from this model's own rules/
+#     #                   channels/performance, with viz tools available.
+#     # "general"      -> NEW: neuroscience/fNIRS-adjacent but not about this
+#     #                   specific model - answered with clearly-labeled
+#     #                   general background instead of a flat refusal.
+#     # "out_of_scope" -> unchanged: canned refusal, no LLM call spent.
+#     tier = classify_scope(question, data["rules"], data["feature_names"])
+
+#     if tier == "out_of_scope":
 #         answer = (
 #             "I can only answer questions about this model's rules, its "
-#             "channels, and its performance - that question looks outside "
-#             "that scope, so I don't have a grounded answer for it."
+#             "channels, and its performance, or general neuroscience/fNIRS "
+#             "background - that question looks outside both, so I don't "
+#             "have a grounded answer for it."
 #         )
 #         latency_ms = (time.perf_counter() - start) * 1000
 #         log_interaction(question, False, False, [], answer, latency_ms)
 #         return AskResponse(answer=answer, retrieved=[], in_scope=False,
-#                             used_fallback=False, latency_ms=latency_ms,
-#                             visualization=None)
+#                             scope_tier="out_of_scope", used_fallback=False,
+#                             latency_ms=latency_ms, visualization=None)
 
+#     if tier == "general":
+#         citations = []
+#         if state.get("client") is None:
+#             answer = (
+#                 "That's a general neuroscience background question, but "
+#                 "the explanation model isn't available right now, so I "
+#                 "can't answer it without a plain refusal or a possibly "
+#                 "unhedged guess - neither of which I want to give you. "
+#                 "Please try again once the model is reachable."
+#             )
+#             used_fallback = True
+#         else:
+#             try:
+#                 result = ask_general_neuro(
+#                     question, state["client"],
+#                     domain_background=state["domain_background"],
+#                 )
+#                 answer = result["answer"]
+#                 citations = result.get("citations", [])
+#                 used_fallback = False
+#             except Exception:
+#                 answer = (
+#                     "The explanation model is unavailable right now, so I "
+#                     "can't answer this general background question "
+#                     "reliably at the moment - please try again shortly."
+#                 )
+#                 used_fallback = True
+#         latency_ms = (time.perf_counter() - start) * 1000
+#         log_interaction(question, True, used_fallback, [], answer, latency_ms)
+#         return AskResponse(answer=answer, retrieved=[], in_scope=True,
+#                             scope_tier="general", used_fallback=used_fallback,
+#                             latency_ms=latency_ms, visualization=None,
+#                             citations=citations)
+
+#     # tier == "grounded" - unchanged behaviour from here down.
 #     used_fallback = False
 #     visualization = None
 
@@ -348,8 +447,8 @@
 #     )
 #     return AskResponse(
 #         answer=answer, retrieved=retrieved, in_scope=True,
-#         used_fallback=used_fallback, latency_ms=latency_ms,
-#         visualization=visualization,
+#         scope_tier="grounded", used_fallback=used_fallback,
+#         latency_ms=latency_ms, visualization=visualization,
 #     )
 
 """
@@ -405,7 +504,8 @@ from rag_core import (
     RULES_PATH, CLOUD_MODEL,
     load_rules, load_domain_background, load_brain_mapping, get_client,
     retrieve_rules, build_prompt, build_stability_lookup,
-    is_in_scope, build_fallback_answer, ask_with_visualization,
+    is_in_scope, classify_scope, build_fallback_answer,
+    ask_with_visualization, ask_general_neuro, describe_issue,
 )
 from viz_tools import (
     load_channel_atlas, resolve_requested_channels,
@@ -577,19 +677,59 @@ class ChordData(BaseModel):
     edges: list[ChordEdge]
 
 
+class NeighborChannel(BaseModel):
+    channel: str
+    x: float
+    y: float
+    x3d: Optional[float] = None
+    y3d: Optional[float] = None
+    z3d: Optional[float] = None
+    functional_region: str
+    hemisphere: str
+
+
+class NeighborPosition(BaseModel):
+    x: float
+    y: float
+    x3d: Optional[float] = None
+    y3d: Optional[float] = None
+    z3d: Optional[float] = None
+
+
+class NeighborsData(BaseModel):
+    channel: Optional[str] = None
+    found: bool
+    position: Optional[NeighborPosition] = None
+    neighbors: list[NeighborChannel] = []
+
+
 class VisualizationOut(BaseModel):
-    type: str  # "topomap" | "chord"
+    type: str  # "topomap" | "chord" | "neighbors"
     topomap: Optional[list[TopomapPoint]] = None
     chord: Optional[ChordData] = None
+    neighbors: Optional[NeighborsData] = None
+
+
+class Citation(BaseModel):
+    citation: str
+    url: str
+    summary: str
 
 
 class AskResponse(BaseModel):
     answer: str
     retrieved: list[RuleOut]
     in_scope: bool
+    scope_tier: str  # "grounded" | "general" | "out_of_scope"
     used_fallback: bool
     latency_ms: float
     visualization: Optional[VisualizationOut] = None
+    citations: list[Citation] = []
+    # Set when the post-generation consistency check found (and could not
+    # fully fix) a contradiction between the answer and the rule data.
+    consistency_warning: Optional[str] = None
+    # True when the first draft was flagged and automatically corrected.
+    consistency_repaired: bool = False
 
 
 class RulesResponse(BaseModel):
@@ -665,21 +805,67 @@ def ask_endpoint(req: AskRequest):
     data = state["data"]
     start = time.perf_counter()
 
-    # --- Scope guard: skip the LLM call entirely for off-domain questions ---
-    if not is_in_scope(question, data["rules"], data["feature_names"]):
+    # --- Three-way scope classification (was a binary in/out check) ---
+    # "grounded"     -> unchanged path: answer from this model's own rules/
+    #                   channels/performance, with viz tools available.
+    # "general"      -> NEW: neuroscience/fNIRS-adjacent but not about this
+    #                   specific model - answered with clearly-labeled
+    #                   general background instead of a flat refusal.
+    # "out_of_scope" -> unchanged: canned refusal, no LLM call spent.
+    tier = classify_scope(question, data["rules"], data["feature_names"])
+
+    if tier == "out_of_scope":
         answer = (
             "I can only answer questions about this model's rules, its "
-            "channels, and its performance - that question looks outside "
-            "that scope, so I don't have a grounded answer for it."
+            "channels, and its performance, or general neuroscience/fNIRS "
+            "background - that question looks outside both, so I don't "
+            "have a grounded answer for it."
         )
         latency_ms = (time.perf_counter() - start) * 1000
         log_interaction(question, False, False, [], answer, latency_ms)
         return AskResponse(answer=answer, retrieved=[], in_scope=False,
-                            used_fallback=False, latency_ms=latency_ms,
-                            visualization=None)
+                            scope_tier="out_of_scope", used_fallback=False,
+                            latency_ms=latency_ms, visualization=None)
 
+    if tier == "general":
+        citations = []
+        if state.get("client") is None:
+            answer = (
+                "That's a general neuroscience background question, but "
+                "the explanation model isn't available right now, so I "
+                "can't answer it without a plain refusal or a possibly "
+                "unhedged guess - neither of which I want to give you. "
+                "Please try again once the model is reachable."
+            )
+            used_fallback = True
+        else:
+            try:
+                result = ask_general_neuro(
+                    question, state["client"],
+                    domain_background=state["domain_background"],
+                )
+                answer = result["answer"]
+                citations = result.get("citations", [])
+                used_fallback = False
+            except Exception:
+                answer = (
+                    "The explanation model is unavailable right now, so I "
+                    "can't answer this general background question "
+                    "reliably at the moment - please try again shortly."
+                )
+                used_fallback = True
+        latency_ms = (time.perf_counter() - start) * 1000
+        log_interaction(question, True, used_fallback, [], answer, latency_ms)
+        return AskResponse(answer=answer, retrieved=[], in_scope=True,
+                            scope_tier="general", used_fallback=used_fallback,
+                            latency_ms=latency_ms, visualization=None,
+                            citations=citations)
+
+    # tier == "grounded" - unchanged behaviour from here down.
     used_fallback = False
     visualization = None
+    consistency_warning = None
+    consistency_repaired = False
 
     if state.get("client") is None:
         # No LLM available at all - deterministic retrieval-only fallback,
@@ -698,6 +884,15 @@ def ask_endpoint(req: AskRequest):
             answer = result["answer"]
             retrieved = result["retrieved"]
             visualization = result["visualization"]
+            consistency = result.get("consistency") or {}
+            consistency_repaired = bool(consistency.get("repaired"))
+            remaining = consistency.get("issues") or []
+            if remaining:
+                consistency_warning = (
+                    "Automatic check: this answer may contain an error - "
+                    + "; ".join(describe_issue(i) for i in remaining)
+                    + ". Please rely on the rules shown under 'Rules used'."
+                )
         except Exception:
             # LLM API down / timed out / rate-limited - degrade instead
             # of returning a 500 to the frontend. Retrieval alone doesn't
@@ -716,6 +911,8 @@ def ask_endpoint(req: AskRequest):
     )
     return AskResponse(
         answer=answer, retrieved=retrieved, in_scope=True,
-        used_fallback=used_fallback, latency_ms=latency_ms,
-        visualization=visualization,
+        scope_tier="grounded", used_fallback=used_fallback,
+        latency_ms=latency_ms, visualization=visualization,
+        consistency_warning=consistency_warning,
+        consistency_repaired=consistency_repaired,
     )
