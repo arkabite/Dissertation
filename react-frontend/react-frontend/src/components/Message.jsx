@@ -1,6 +1,7 @@
 import VisualizationPanel from "./VisualizationPanel.jsx";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { useEffect, useState } from "react";
 
 function fmt(value, digits = 3, fallback = "n/a") {
   if (value === null || value === undefined || Number.isNaN(value)) return fallback;
@@ -10,14 +11,39 @@ function fmt(value, digits = 3, fallback = "n/a") {
 export default function Message({
   role,
   content,
+  animate = false,
   retrieved,
   visualization,
   atlas,
   scopeTier,
   citations,
+  liveLookupStatus,
   consistencyWarning,
   consistencyRepaired,
 }) {
+  const [visibleLength, setVisibleLength] = useState(animate ? 0 : content.length);
+
+  useEffect(() => {
+    if (!animate) {
+      setVisibleLength(content.length);
+      return;
+    }
+
+    const wordEnds = [...content.matchAll(/\S+\s*/g)].map((match) => match.index + match[0].length);
+    let nextWord = 0;
+    setVisibleLength(0);
+
+    const timer = setInterval(() => {
+      nextWord += 1;
+      setVisibleLength(wordEnds[nextWord - 1] ?? content.length);
+      if (nextWord >= wordEnds.length) clearInterval(timer);
+    }, 28);
+
+    return () => clearInterval(timer);
+  }, [animate, content]);
+
+  const displayedContent = animate ? content.slice(0, visibleLength) : content;
+
   return (
     <div className={`chat-message ${role}`}>
       <div className="role">{role}</div>
@@ -29,7 +55,7 @@ export default function Message({
       )}
       {role === "assistant" ? (
         <div className="markdown-body">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{displayedContent}</ReactMarkdown>
         </div>
       ) : (
         <div>{content}</div>
@@ -49,12 +75,23 @@ export default function Message({
           <div className="citations-label">Sources</div>
           {citations.map((c) => (
             <p key={c.url} className="caption">
+              {!c.vetted && <strong>Unvetted live result: </strong>}
               <a href={c.url} target="_blank" rel="noreferrer">
                 {c.citation}
               </a>
             </p>
           ))}
         </div>
+      )}
+
+      {role === "assistant" && scopeTier === "general" && (!citations || citations.length === 0) && liveLookupStatus && (
+        <p className="caption">
+          {liveLookupStatus === "provider_error"
+            ? "Live source lookup failed for this answer."
+            : liveLookupStatus === "no_qualifying_results"
+              ? "Live source lookup found no matching papers."
+              : "Live source lookup was not attempted for this answer."}
+        </p>
       )}
 
       {visualization && (

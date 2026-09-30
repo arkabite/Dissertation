@@ -1,6 +1,6 @@
 # Deployment Guide
 
-This document records the deployment completed on 2026-09-27 and the commands to publish later backend or frontend changes.
+This document records the initial deployment on 2026-09-27, the follow-up update on 2026-09-28, and the commands to publish later backend or frontend changes.
 
 ## Deployed Architecture
 
@@ -32,10 +32,11 @@ uvicorn backend:app --host 0.0.0.0 --port 8000
 
 The App Service settings include:
 
-- `DB_PATH=/home/data/interactions.db`, placing the SQLite database under App Service's persistent `/home` storage. `backend.py` creates the parent directory as needed. Local runs default to `interactions.db` in the current directory.
+- `INTERACTIONS_DB_PATH=/home/data/interactions.db`, placing the SQLite database under App Service's persistent `/home` storage. `backend.py` creates the parent directory as needed. Local runs default to `interactions.db` in the current directory.
+- `ALLOWED_ORIGINS=https://fnirsragweb7f3a26.z1.web.core.windows.net`, allowing the deployed frontend to call the API. The backend parses a comma-separated list so future frontend origins can be configured in Azure without editing code.
 - `OLLAMA_API_KEY`, stored as an App Service environment setting, not in a deployed source file. Set or rotate it through Azure Portal under the App Service's **Environment variables** settings. Do not put it in the frontend `.env`: Vite embeds frontend environment variables into public JavaScript bundles.
 
-FastAPI CORS allows the deployed frontend origin:
+FastAPI CORS allows the frontend origin configured by the `ALLOWED_ORIGINS` App Service setting:
 
 ```text
 https://fnirsragweb7f3a26.z1.web.core.windows.net
@@ -52,14 +53,15 @@ The backend dependencies are pinned in the root `requirements.txt`, captured fro
 
 1. Azure CLI was installed and authenticated to the **Azure for Students** subscription.
 2. Resource group `fnirs-rag-rg` was created in UK South.
-3. Backend preparation made `DB_PATH` environment-configurable while keeping the existing local default. The root `requirements.txt` was pinned from `.venv`.
+3. Backend preparation made `INTERACTIONS_DB_PATH` environment-configurable while keeping the existing local default. The root `requirements.txt` was pinned from `.venv`.
 4. The first App Service Plan attempt in UK South was rejected by subscription policy. The successful Linux Python 3.12 F1 App Service was created in Germany West Central.
 5. The App Service startup command and persistent database setting were configured. `OLLAMA_API_KEY` was set in App Service settings and later rotated; keep the replacement there only.
 6. The backend health endpoint returned `status: ok`, six loaded rules, and a loaded channel atlas. A live `/ask` request returned a grounded answer with `used_fallback: false`.
 7. `Microsoft.Storage` was registered because it was not registered in the subscription. A Standard_LRS StorageV2 account was created in Germany West Central, and static website hosting was enabled with `index.html` as both the index document and the single-page-app fallback.
 8. The frontend `.env` was set to the live backend URL, the Vite production build was created, and `dist/` was uploaded to the Storage `$web` container.
-9. The Storage website origin was added to FastAPI's CORS allowlist and the backend was redeployed. Live preflight returned HTTP 200 with the expected `Access-Control-Allow-Origin` value.
-10. The deployed page rendered in a browser, and a browser-submitted question returned an assistant answer.
+9. The frontend origin was first added to the CORS allowlist, then moved into the `ALLOWED_ORIGINS` App Service setting so it can be changed without editing Python source. The database setting was moved from `DB_PATH` to `INTERACTIONS_DB_PATH`, preserving `/home/data/interactions.db`.
+10. On 2026-09-28, the frontend was rebuilt and uploaded with the About panel and consistency-warning UI. The backend was redeployed with best-effort SQLite logging, configurable CORS, and answer-consistency detection/repair fields.
+11. The current backend passed `regression_test.py`. Live `/health` returned HTTP 200, the CORS preflight returned HTTP 200 with the Storage website origin, and a live `/ask` returned a grounded answer with `used_fallback: false` and both consistency fields. The browser displayed the new About panel.
 
 The deployment checklist mentioned a 14-question live test. No 14-question list was found in the workspace. `questions.txt` contains an 11-question transcript; the full 14-case test has not been run.
 
@@ -131,6 +133,37 @@ Invoke-RestMethod -Method Post -Uri "https://fnirs-rag-backend.azurewebsites.net
 ```
 
 Open the frontend at `https://fnirsragweb7f3a26.z1.web.core.windows.net/` and submit a question. The first request after the free App Service has been idle may take longer due to cold start.
+
+## Update Through Azure Portal
+
+Azure Portal is suitable for configuration changes and for uploading already-built static frontend files. It does not edit or compile the Python/React source code for you. Backend source changes still need a deployment package or connected source-control deployment; frontend source changes must be built locally first.
+
+### Change backend settings or restart
+
+1. In [Azure Portal](https://portal.azure.com/), select the **Azure for Students** subscription.
+2. Open **Resource groups** > `fnirs-rag-rg` > `fnirs-rag-backend` (App Service).
+3. Open **Settings** > **Environment variables**. Confirm or edit `INTERACTIONS_DB_PATH` and `ALLOWED_ORIGINS`; add or rotate `OLLAMA_API_KEY` here. Never put the key in source code or the frontend `.env`.
+4. Click **Apply** or **Save** when prompted. App Service settings changes restart the app; if the portal indicates that a restart is needed, use **Overview** > **Restart**.
+5. To change the startup command, go to **Settings** > **Configuration** (or **General settings**, depending on the portal layout), set **Startup Command** to `uvicorn backend:app --host 0.0.0.0 --port 8000`, then save and restart.
+6. Verify `https://fnirs-rag-backend.azurewebsites.net/health` and try one `/ask` request.
+
+### Publish backend source changes through the Portal
+
+For ongoing work, the most maintainable UI-driven option is to connect the App Service's **Deployment Center** to a GitHub repository and branch. In the App Service, open **Deployment Center**, choose GitHub as the source, authorize Azure, select the repository and branch, review the generated workflow, and save. Push backend changes to that branch to trigger deployment. Because this repository contains both projects, ensure the workflow deploys the repository root for this App Service and uses the root `requirements.txt`. Keep App Service environment settings configured separately as described above.
+
+If you do not want to connect GitHub, the tested repeatable route is the CLI ZIP deployment documented above. Do not manually overwrite Python files in the live App Service's `wwwroot`; that bypasses the normal build/install process and can leave the deployment incomplete.
+
+### Publish frontend files through the Portal
+
+1. Build the frontend locally as described in **Deploy Frontend Changes**. Each UI code change requires a new build because Vite compiles the source into static files.
+2. In Azure Portal, open **Resource groups** > `fnirs-rag-rg` > storage account `fnirsragweb7f3a26`.
+3. Open **Data storage** > **Containers** > the `$web` container.
+4. Upload the **contents** of `react-frontend/react-frontend/dist/`, preserving the `assets/` subfolder. Overwrite existing files when prompted. Do not upload the source folder or `node_modules`.
+5. Open the frontend URL in a private/incognito window or do a hard refresh (Ctrl+F5) to avoid cached assets, then submit a question.
+
+### When the frontend URL changes
+
+Update `ALLOWED_ORIGINS` in the App Service's **Environment variables** to the new exact HTTPS origin, save/apply, and restart if prompted. Update `VITE_BACKEND_URL` in the frontend `.env`, rebuild, and upload the new `dist/` contents. A trailing slash is not required in `ALLOWED_ORIGINS`.
 
 ## Stop or Remove Resources
 

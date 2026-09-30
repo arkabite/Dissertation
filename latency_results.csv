@@ -1,101 +1,101 @@
-trial,question,latency_sec,success,error,answer_length_chars
-1,How many rules does the model have in total?,3.946,True,,102
-2,What does channel AF7 predict?,10.038,True,,999
-3,What does channel AF8 predict?,9.868,True,,1021
-4,What is the highest-accuracy rule in the model?,3.308,True,,234
-5,"List every rule you have, exactly as given.",8.479,True,,813
-6,Summarize the model's overall accuracy.,2.529,True,,272
-7,Summarize the model's overall accuracy.,2.333,True,,358
-8,What's the dominance score and accuracy for the AFF5/AFpz rule?,3.397,True,,95
-9,What is the highest-accuracy rule in the model?,4.374,True,,243
-10,What does channel AF7 predict?,7.352,True,,569
-11,How many rules does the model have in total?,1.755,True,,191
-12,What is the highest-accuracy rule in the model?,6.834,True,,312
-13,Explain rule 4 in plain language.,7.233,True,,723
-14,Which rules predict 0 back?,3.842,True,,486
-15,What does channel AF7 predict?,13.0,True,,617
-16,Which rules predict 2/3 back?,2.797,True,,107
-17,Which hemisphere shows more activity overall?,5.066,True,,165
-18,What does channel AF8 predict?,7.339,True,,906
-19,What does channel AF8 predict?,8.645,True,,756
-20,What does channel AF7 predict?,6.497,True,,727
-21,Summarize the model's overall accuracy.,3.185,True,,211
-22,Summarize the model's overall accuracy.,2.43,True,,273
-23,Which rules predict 0 back?,3.872,True,,507
-24,Which rules predict 2/3 back?,8.197,True,,734
-25,What does channel AF8 predict?,8.431,True,,677
-26,Which rules predict 0 back?,2.963,True,,291
-27,Summarize the model's overall accuracy.,2.763,True,,281
-28,What is the highest-accuracy rule in the model?,3.4,True,,169
-29,How many rules does the model have in total?,1.736,True,,87
-30,What is the highest-accuracy rule in the model?,3.642,True,,326
-31,Which rules predict 0 back?,3.895,True,,381
-32,Which hemisphere shows more activity overall?,5.288,True,,290
-33,Summarize the model's overall accuracy.,4.062,True,,254
-34,What is the model's cross-validated test MCC?,3.451,True,,104
-35,Which rules predict 2/3 back?,5.997,True,,645
-36,"List every rule you have, exactly as given.",9.874,True,,886
-37,Is the AF7 rule more reliable than the AF8 rule?,9.358,True,,864
-38,Does the model use channel PPOz anywhere?,6.082,True,,193
-39,What does channel AF8 predict?,8.069,True,,675
-40,Is the AF7 rule more reliable than the AF8 rule?,11.678,True,,563
-41,Is the AF7 rule more reliable than the AF8 rule?,14.004,True,,1120
-42,What's the dominance score and accuracy for the AFF5/AFpz rule?,3.135,True,,87
-43,What is the highest-accuracy rule in the model?,9.908,True,,281
-44,Which hemisphere shows more activity overall?,2.664,True,,140
-45,What does channel AFp8 tell us?,6.13,True,,205
-46,"List every rule you have, exactly as given.",8.767,True,,857
-47,What's the dominance score and accuracy for the AFF5/AFpz rule?,8.277,True,,184
-48,Summarize the model's overall accuracy.,3.027,True,,333
-49,Is the AF7 rule more reliable than the AF8 rule?,18.235,True,,688
-50,What does channel AFp8 tell us?,8.038,True,,444
-51,What does channel AF7 predict?,5.507,True,,496
-52,What does channel AF7 predict?,11.18,True,,877
-53,Which hemisphere shows more activity overall?,5.396,True,,434
-54,What does channel AF7 predict?,10.591,True,,1144
-55,What does channel AFp8 tell us?,7.41,True,,480
-56,Does the model use channel PPOz anywhere?,5.719,True,,198
-57,What does channel AFp8 tell us?,6.209,True,,478
-58,Which rules predict 2/3 back?,5.986,True,,727
-59,"List every rule you have, exactly as given.",8.302,True,,862
-60,Is the AF7 rule more reliable than the AF8 rule?,9.727,True,,483
-61,What does channel AF8 predict?,7.698,True,,834
-62,What is the highest-accuracy rule in the model?,4.912,True,,197
-63,What is the model's cross-validated test MCC?,4.24,True,,91
-64,Which rules predict 0 back?,4.985,True,,597
-65,What does channel AF7 predict?,9.419,True,,758
-66,Explain rule 4 in plain language.,4.789,True,,676
-67,Which hemisphere shows more activity overall?,2.767,True,,245
-68,What does channel AF7 predict?,6.132,True,,571
-69,Which rules predict 0 back?,4.47,True,,339
-70,"List every rule you have, exactly as given.",5.619,True,,858
-71,Does the model use channel PPOz anywhere?,2.71,True,,141
-72,How many rules does the model have in total?,2.833,True,,152
-73,Which rules predict 2/3 back?,5.573,True,,388
-74,Explain rule 4 in plain language.,4.957,True,,340
-75,Does the model use channel PPOz anywhere?,3.605,True,,192
-76,What does channel AFp8 tell us?,8.342,True,,610
-77,Which rules predict 2/3 back?,2.135,True,,94
-78,Summarize the model's overall accuracy.,2.856,True,,357
-79,What is the highest-accuracy rule in the model?,3.647,True,,267
-80,What does channel AF7 predict?,9.476,True,,874
-81,What does channel AF8 predict?,10.231,True,,792
-82,How many rules does the model have in total?,2.075,True,,199
-83,Summarize the model's overall accuracy.,2.229,True,,305
-84,Is the AF7 rule more reliable than the AF8 rule?,13.657,True,,1197
-85,"List every rule you have, exactly as given.",8.656,True,,823
-86,What does channel AF7 predict?,6.595,True,,723
-87,Does the model use channel PPOz anywhere?,3.857,True,,88
-88,Summarize the model's overall accuracy.,3.156,True,,271
-89,Does the model use channel PPOz anywhere?,2.718,True,,150
-90,What does channel AF7 predict?,6.339,True,,860
-91,Which hemisphere shows more activity overall?,5.832,True,,310
-92,"List every rule you have, exactly as given.",8.015,True,,810
-93,What is the model's cross-validated test MCC?,4.645,True,,100
-94,How many rules does the model have in total?,2.436,True,,121
-95,Does the model use channel PPOz anywhere?,3.632,True,,202
-96,What does channel AFp8 tell us?,8.19,True,,459
-97,What's the dominance score and accuracy for the AFF5/AFpz rule?,4.636,True,,128
-98,What does channel AFp8 tell us?,3.055,True,,329
-99,What does channel AFp8 tell us?,7.153,True,,653
-100,Summarize the model's overall accuracy.,3.583,True,,245
+trial,question,path,scope_tier,latency_sec,success,error,answer_length_chars,visualization_type,viz_routing,consistency_flagged,consistency_repaired,citations
+1,Show me the whole channel map,tool_call,grounded,24.889,True,,2754,topomap,forced,0,False,0
+2,where's af7 at,tool_call,grounded,6.549,True,,493,topomap,forced,0,False,0
+3,Does the model use channel PPOz anywhere?,no_tool_call,grounded,3.395,True,,433,none,none,0,False,0
+4,What is the prefrontal cortex?,general,general,6.658,True,,1156,none,none,0,False,2
+5,What is EEG?,general,general,8.601,True,,752,none,none,0,False,1
+6,Which rules predict 2/3 back?,no_tool_call,grounded,11.037,True,,1497,none,none,0,False,0
+7,Which rules predict 0 back?,no_tool_call,grounded,6.454,True,,258,none,none,0,False,0
+8,"List every rule you have, exactly as given.",no_tool_call,grounded,9.943,True,,1449,none,none,0,False,0
+9,Explain rule 4 in plain language.,no_tool_call,grounded,12.543,True,,2082,none,none,0,False,0
+10,Which channels are near AF7 on the scalp?,tool_call,grounded,4.144,True,,481,neighbors,forced,0,False,0
+11,Is the AF7 rule more reliable than the AFp8 rule?,no_tool_call,grounded,15.196,True,,2101,none,none,0,False,0
+12,Explain the n-back task,general,general,10.881,True,,1873,none,none,0,False,2
+13,What is the capital of France?,out_of_scope,out_of_scope,0.001,True,,7,none,none,0,False,0
+14,What is the hemodynamic response function?,general,general,10.652,True,,1696,none,none,0,False,0
+15,What channels surround AFp8?,tool_call,grounded,3.844,True,,590,neighbors,forced,0,False,0
+16,What's the weather like today?,out_of_scope,out_of_scope,0.0,True,,7,none,none,0,False,0
+17,What does channel AFp8 tell us?,no_tool_call,grounded,15.235,True,,303,none,none,1,True,0
+18,Where is AF7 located on the head?,tool_call,grounded,7.575,True,,449,topomap,forced,0,False,0
+19,"How are AFp8, C5h and CCP3 connected in the rules?",tool_call,grounded,12.507,True,,1273,chord,forced,0,False,0
+20,What's the dominance score and accuracy of the AFp8 low rule?,no_tool_call,grounded,8.95,True,,169,none,none,0,False,0
+21,How are AF7 and C6h related?,tool_call,grounded,9.919,True,,946,chord,forced,0,False,0
+22,Can you write me a poem about the ocean?,out_of_scope,out_of_scope,0.001,True,,7,none,none,0,False,0
+23,What is the model's cross-validated test MCC?,no_tool_call,grounded,2.493,True,,121,none,none,0,False,0
+24,explain cognitive load,general,general,5.214,True,,996,none,none,0,False,1
+25,How many rules does the model have in total?,no_tool_call,grounded,3.255,True,,112,none,none,0,False,0
+26,What is the highest-accuracy rule in the model?,no_tool_call,grounded,3.071,True,,311,none,none,0,False,0
+27,What is functional connectivity in neuroscience research?,general,general,10.142,True,,1997,none,none,0,False,1
+28,What does channel AF7 predict?,no_tool_call,grounded,13.173,True,,384,none,none,1,False,0
+29,Summarize the model's overall accuracy.,no_tool_call,grounded,5.499,True,,477,none,none,0,False,0
+30,Where is C6h located?,tool_call,grounded,10.03,True,,427,neighbors,forced,0,False,0
+31,where's af7 at,tool_call,grounded,7.574,True,,730,topomap,forced,0,False,0
+32,What is functional connectivity in neuroscience research?,general,general,7.148,True,,1251,none,none,0,False,1
+33,Which channels are near AF7 on the scalp?,tool_call,grounded,6.575,True,,512,neighbors,forced,0,False,0
+34,Explain rule 4 in plain language.,no_tool_call,grounded,9.442,True,,1828,none,none,0,False,0
+35,What channels surround AFp8?,tool_call,grounded,4.401,True,,551,neighbors,forced,0,False,0
+36,Where is C6h located?,tool_call,grounded,6.53,True,,752,neighbors,forced,0,False,0
+37,How are AF7 and C6h related?,tool_call,grounded,8.285,True,,983,chord,forced,0,False,0
+38,How many rules does the model have in total?,no_tool_call,grounded,3.604,True,,135,none,none,0,False,0
+39,What is the prefrontal cortex?,general,general,7.897,True,,1133,none,none,0,False,2
+40,Show me the whole channel map,tool_call,grounded,6.725,True,,308,topomap,forced,0,False,0
+41,Is the AF7 rule more reliable than the AFp8 rule?,no_tool_call,grounded,13.884,True,,1414,none,none,0,False,0
+42,"List every rule you have, exactly as given.",no_tool_call,grounded,8.086,True,,1358,none,none,0,False,0
+43,What's the weather like today?,out_of_scope,out_of_scope,0.001,True,,7,none,none,0,False,0
+44,What does channel AFp8 tell us?,no_tool_call,grounded,11.092,True,,1662,none,none,0,False,0
+45,What is the capital of France?,out_of_scope,out_of_scope,0.0,True,,7,none,none,0,False,0
+46,What's the dominance score and accuracy of the AFp8 low rule?,no_tool_call,grounded,4.152,True,,542,none,none,0,False,0
+47,Summarize the model's overall accuracy.,no_tool_call,grounded,4.735,True,,305,none,none,0,False,0
+48,What is the hemodynamic response function?,general,general,11.124,True,,1682,none,none,0,False,0
+49,Which rules predict 2/3 back?,no_tool_call,grounded,12.625,True,,1333,none,none,0,False,0
+50,What is the model's cross-validated test MCC?,no_tool_call,grounded,6.822,True,,306,none,none,0,False,0
+51,Can you write me a poem about the ocean?,out_of_scope,out_of_scope,0.001,True,,7,none,none,0,False,0
+52,Does the model use channel PPOz anywhere?,no_tool_call,grounded,10.189,True,,307,none,none,0,False,0
+53,Where is AF7 located on the head?,tool_call,grounded,11.49,True,,803,topomap,forced,0,False,0
+54,What is EEG?,general,general,7.432,True,,1018,none,none,0,False,1
+55,Which rules predict 0 back?,no_tool_call,grounded,5.664,True,,407,none,none,0,False,0
+56,explain cognitive load,general,general,13.474,True,,1961,none,none,0,False,1
+57,What does channel AF7 predict?,no_tool_call,grounded,17.611,True,,842,none,none,0,False,0
+58,Explain the n-back task,general,general,11.305,True,,1289,none,none,0,False,2
+59,What is the highest-accuracy rule in the model?,no_tool_call,grounded,5.714,True,,239,none,none,0,False,0
+60,"How are AFp8, C5h and CCP3 connected in the rules?",tool_call,grounded,9.08,True,,1196,chord,forced,0,False,0
+61,Where is AF7 located on the head?,tool_call,grounded,11.638,True,,684,topomap,forced,0,False,0
+62,where's af7 at,tool_call,grounded,9.294,True,,518,topomap,forced,0,False,0
+63,explain cognitive load,general,general,12.864,True,,2110,none,none,0,False,1
+64,What is the hemodynamic response function?,general,general,8.608,True,,1050,none,none,0,False,0
+65,What does channel AF7 predict?,no_tool_call,grounded,12.884,True,,948,none,none,0,False,0
+66,Which channels are near AF7 on the scalp?,tool_call,grounded,5.558,True,,678,neighbors,forced,0,False,0
+67,What is the highest-accuracy rule in the model?,no_tool_call,grounded,3.417,True,,457,none,none,0,False,0
+68,What channels surround AFp8?,tool_call,grounded,4.984,True,,312,neighbors,forced,0,False,0
+69,What's the weather like today?,out_of_scope,out_of_scope,0.001,True,,7,none,none,0,False,0
+70,What is the capital of France?,out_of_scope,out_of_scope,0.001,True,,7,none,none,0,False,0
+71,Explain the n-back task,general,general,11.746,True,,1995,none,none,0,False,2
+72,Which rules predict 0 back?,no_tool_call,grounded,6.531,True,,477,none,none,0,False,0
+73,Does the model use channel PPOz anywhere?,no_tool_call,grounded,4.378,True,,244,none,none,0,False,0
+74,How are AF7 and C6h related?,tool_call,grounded,16.173,True,,991,chord,forced,0,False,0
+75,What is the model's cross-validated test MCC?,no_tool_call,grounded,3.085,True,,132,none,none,0,False,0
+76,"List every rule you have, exactly as given.",no_tool_call,grounded,11.487,True,,1357,none,none,0,False,0
+77,Summarize the model's overall accuracy.,no_tool_call,grounded,4.103,True,,368,none,none,0,False,0
+78,Can you write me a poem about the ocean?,out_of_scope,out_of_scope,0.001,True,,7,none,none,0,False,0
+79,What is functional connectivity in neuroscience research?,general,general,7.369,True,,1784,none,none,0,False,1
+80,Is the AF7 rule more reliable than the AFp8 rule?,no_tool_call,grounded,40.433,True,,2337,none,none,1,True,0
+81,How many rules does the model have in total?,no_tool_call,grounded,4.824,True,,134,none,none,0,False,0
+82,What does channel AFp8 tell us?,no_tool_call,grounded,49.133,True,,1334,none,none,1,True,0
+83,What's the dominance score and accuracy of the AFp8 low rule?,no_tool_call,grounded,11.061,True,,557,none,none,0,False,0
+84,What is EEG?,general,general,6.361,True,,1146,none,none,0,False,1
+85,Which rules predict 2/3 back?,no_tool_call,grounded,6.745,True,,965,none,none,0,False,0
+86,"How are AFp8, C5h and CCP3 connected in the rules?",tool_call,grounded,6.165,True,,779,chord,forced,0,False,0
+87,Explain rule 4 in plain language.,no_tool_call,grounded,9.327,True,,1779,none,none,0,False,0
+88,Show me the whole channel map,tool_call,grounded,14.872,True,,1827,topomap,forced,0,False,0
+89,Where is C6h located?,tool_call,grounded,3.752,True,,475,neighbors,forced,0,False,0
+90,What is the prefrontal cortex?,general,general,8.535,True,,1911,none,none,0,False,2
+91,Can you write me a poem about the ocean?,out_of_scope,out_of_scope,0.001,True,,7,none,none,0,False,0
+92,What is the prefrontal cortex?,general,general,6.079,True,,1213,none,none,0,False,2
+93,What does channel AF7 predict?,no_tool_call,grounded,7.295,True,,1120,none,none,0,False,0
+94,What's the dominance score and accuracy of the AFp8 low rule?,no_tool_call,grounded,11.819,True,,393,none,none,0,False,0
+95,Where is AF7 located on the head?,tool_call,grounded,5.445,True,,470,topomap,forced,0,False,0
+96,Explain rule 4 in plain language.,no_tool_call,grounded,10.762,True,,1614,none,none,0,False,0
+97,What channels surround AFp8?,tool_call,grounded,6.575,True,,414,neighbors,forced,0,False,0
+98,Which rules predict 2/3 back?,no_tool_call,grounded,10.799,True,,1343,none,none,0,False,0
+99,"How are AFp8, C5h and CCP3 connected in the rules?",tool_call,grounded,6.902,True,,1049,chord,forced,0,False,0
+100,Which channels are near AF7 on the scalp?,tool_call,grounded,4.564,True,,646,neighbors,forced,0,False,0

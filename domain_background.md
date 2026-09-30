@@ -19,6 +19,25 @@ commonly affected by noise, motion artefacts, and physiological variation —
 which is why preprocessing (filtering, normalisation, feature extraction)
 happens before model training.
 
+## What "tmb" means (this project's own feature engineering, not the source dataset)
+
+Every feature name in this model is prefixed `tmb_s1_ch*` or `tmb_s2_ch*`
+(e.g. `tmb_s1_chAF7`). **`tmb` stands for Task Minus Baseline.** This is
+defined directly in this project's own preprocessing code
+(`002_Block_Averaging.ipynb`):
+
+    new_row['tmb'] = task_mean - rest_mean
+
+For each trial and each channel, it is the mean signal recorded during the
+task period minus the mean signal recorded during that trial's rest
+(baseline) period — computed separately for `s1` (HbO) and `s2` (HbR).
+This is NOT a term from Shin et al. (2018), the source dataset paper: their
+own file-naming convention uses `cnt`/`mrk`/`mnt` with no "tmb" anywhere.
+It was introduced later, specifically in this project's own data-processing
+pipeline, as the block-averaging/feature-engineering step that turns raw
+continuous recordings into the one-row-per-trial features the fuzzy rules
+are actually fitted on.
+
 ## Why this project uses an interpretable model instead of a black box
 
 fNIRS analysis is frequently carried out with black-box models (deep

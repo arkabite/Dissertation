@@ -26,10 +26,12 @@ export default function ChatPanel({ atlas }) {
         {
           role: "assistant",
           content: result.answer || "The model returned an empty answer.",
+          animate: true,
           retrieved: result.retrieved || [],
           visualization: result.visualization || null,
           scopeTier: result.scope_tier || "grounded",
           citations: result.citations || [],
+          liveLookupStatus: result.live_lookup_status || null,
           consistencyWarning: result.consistency_warning || null,
           consistencyRepaired: !!result.consistency_repaired,
         },
@@ -77,11 +79,13 @@ export default function ChatPanel({ atlas }) {
             key={i}
             role={m.role}
             content={m.content}
+            animate={m.animate}
             retrieved={m.retrieved}
             visualization={m.visualization}
             atlas={atlas}
             scopeTier={m.scopeTier}
             citations={m.citations}
+            liveLookupStatus={m.liveLookupStatus}
             consistencyWarning={m.consistencyWarning}
             consistencyRepaired={m.consistencyRepaired}
           />
